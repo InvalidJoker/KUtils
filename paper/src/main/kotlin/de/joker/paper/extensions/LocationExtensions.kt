@@ -2,6 +2,7 @@ package de.joker.paper.extensions
 
 import org.bukkit.*
 import org.bukkit.block.Block
+import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
 

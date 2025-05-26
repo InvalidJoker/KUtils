@@ -2,7 +2,6 @@ package de.joker.paper.inventory
 
 import com.destroystokyo.paper.profile.ProfileProperty
 import com.google.gson.Gson
-import de.joker.paper.coroutines.taskRunLater
 import de.joker.paper.inventory.skin.MineSkinFetcher
 import de.joker.paper.inventory.skin.MinecraftSkin
 import de.joker.paper.inventory.skin.SKIN
@@ -19,7 +18,6 @@ import org.bukkit.NamespacedKey
 import org.bukkit.OfflinePlayer
 import org.bukkit.craftbukkit.inventory.components.CraftCustomModelDataComponent
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemRarity
@@ -29,7 +27,6 @@ import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -40,6 +37,7 @@ import java.util.concurrent.TimeUnit
  * @param count The count (stack size) of the ItemStack. Default is 1.
  * @param dsl The DSL (Domain Specific Language) block that can be used to customize the item. Default is an empty block.
  */
+@Suppress("UnstableApiUsage", "Unused")
 class ItemBuilder(material: Material, count: Int = 1, dsl: ItemBuilder.() -> Unit = {}) {
 
     /**
@@ -192,20 +190,6 @@ class ItemBuilder(material: Material, count: Int = 1, dsl: ItemBuilder.() -> Uni
         meta<ItemMeta> {
             this.setEnchantmentGlintOverride(glinting)
         }
-        return this
-    }
-
-
-    /**
-     * Sets the custom model data for an item.
-     *
-     * @param modelData the custom model data value to be set
-     * @return the ItemBuilder instance with the updated custom model data
-     */
-    fun customModelData(modelData: Int): ItemBuilder {
-        val meta = itemStack.itemMeta
-        meta.setCustomModelData(modelData)
-        itemStack.itemMeta = meta
         return this
     }
 
@@ -674,10 +658,8 @@ class ItemBuilder(material: Material, count: Int = 1, dsl: ItemBuilder.() -> Uni
         if (withoutDurability && itemStack.itemMeta is Damageable && this.itemStack.itemMeta is Damageable) {
             val damageableItemMeta = itemToCheck.itemMeta as Damageable
             val damageableThisItemMeta = thisItem.itemMeta as Damageable
-            if (withoutDurability) {
-                damageableItemMeta.damage = 0
-                damageableThisItemMeta.damage = 0
-            }
+            damageableItemMeta.damage = 0
+            damageableThisItemMeta.damage = 0
             itemToCheck.itemMeta = damageableItemMeta
             thisItem.itemMeta = damageableThisItemMeta
         }

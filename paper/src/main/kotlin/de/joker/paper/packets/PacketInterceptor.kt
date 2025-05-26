@@ -1,5 +1,6 @@
 package de.joker.paper.packets
 
+import de.joker.paper.extensions.connection
 import de.joker.paper.extensions.getLogger
 import dev.fruxz.ascend.extension.forceCast
 import io.netty.channel.Channel

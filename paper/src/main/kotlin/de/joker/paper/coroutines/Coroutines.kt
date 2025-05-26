@@ -1,8 +1,11 @@
 package de.joker.paper.coroutines
 
 import de.joker.paper.PluginInstance
+import de.joker.paper.extensions.timeLimit
 import org.bukkit.Bukkit
 import kotlinx.coroutines.*
+import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scheduler.BukkitTask
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
@@ -98,4 +101,8 @@ fun taskRun(sync: Boolean = true, runnable: () -> Unit) {
     }
 }
 
-fun taskRunTimer(period: Long = 1, name: String = "", block: () -> Unit) = timer(period, name, block)
+fun taskRunTimer(period: Long = 1, name: String = "", block: () -> Unit): BukkitTask {
+    return object : BukkitRunnable() {
+        override fun run() = timeLimit(period, name, block)
+    }.runTaskTimer(PluginInstance, 0, period)
+}
