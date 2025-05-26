@@ -1,0 +1,26 @@
+[versions]
+kotlin = "2.1.20"
+kotlinxDatetime = "0.6.1"
+kotlinxSerializationJSON = "1.7.3"
+kotlinxCoroutines = "1.9.0"
+paperweight = "2.0.0-beta.17"
+minecraft = "1.21.5"
+logback = "1.5.13"
+ascend = "2025.5-c701147"
+
+[libraries]
+kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
+kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+ascend = { module = "dev.fruxz:ascend", version.ref = "ascend" }
+
+# Libraries can be bundled together for easier import
+[bundles]
+kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
+utils = ["logback", "ascend"]
+
+[plugins]
+kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
