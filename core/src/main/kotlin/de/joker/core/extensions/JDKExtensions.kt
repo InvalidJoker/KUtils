@@ -90,3 +90,9 @@ inline fun <T> T.ifTrue(
     }
     return this
 }
+
+inline fun <reified T> Array<T>.shuffled(): Array<T> {
+    val list = toMutableList()
+    list.shuffle()
+    return list.toTypedArray()
+}

@@ -24,5 +24,6 @@ plugins {
 include(":core")
 include(":paper")
 include(":paper-inventory")
+include(":paper-ux")
 
 rootProject.name = "KUtils"

@@ -741,15 +741,3 @@ fun ItemStack.toItemBuilder(dsl: ItemBuilder.() -> Unit = {}): ItemBuilder {
     builder.dsl()
     return builder
 }
-
-fun ItemStack.changeNameForTime(name: String, time: Long, unit: TimeUnit = TimeUnit.SECONDS, afterTask: () -> Unit = {}) {
-    val oldName = this.itemMeta.displayName()
-    val meta = this.itemMeta
-    meta.displayName(text(name))
-    this.itemMeta = meta
-    taskRunLater(unit.toSeconds(time) * 20L) {
-        meta.displayName(oldName)
-        this.itemMeta = meta
-        afterTask()
-    }
-}

@@ -1,5 +1,6 @@
 package de.joker.paper
 
+import de.joker.paper.event.custom.CustomEventListener
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -33,10 +34,12 @@ abstract class KPlugin : JavaPlugin() {
     }
 
     final override fun onEnable() {
+        CustomEventListener.load()
         startup()
     }
 
     final override fun onDisable() {
+        CustomEventListener.unload()
         shutdown()
     }
 }

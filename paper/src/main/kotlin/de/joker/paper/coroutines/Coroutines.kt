@@ -97,3 +97,5 @@ fun taskRun(sync: Boolean = true, runnable: () -> Unit) {
         async(runnable)
     }
 }
+
+fun taskRunTimer(period: Long = 1, name: String = "", block: () -> Unit) = timer(period, name, block)
