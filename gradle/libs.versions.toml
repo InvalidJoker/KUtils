@@ -8,6 +8,9 @@ minecraft = "1.21.5"
 logback = "1.5.13"
 ascend = "2025.5-c701147"
 gson = "2.11.0"
+stacked = "2025.5-ad26dc0"
+fuel = "3.0.0-alpha04"
+dotenv = "6.5.1"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -16,12 +19,16 @@ kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-j
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ascend = { module = "dev.fruxz:ascend", version.ref = "ascend" }
+stacked = { module = "dev.fruxz:stacked", version.ref = "stacked" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+fuel = { module = "com.github.kittinunf.fuel:fuel", version.ref = "fuel" }
+dotenv = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenv" }
 
 # Libraries can be bundled together for easier import
 [bundles]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
-utils = ["logback", "ascend", "gson"]
+utils = ["logback", "ascend", "gson", "dotenv"]
+minecraft = ["stacked"]
 
 [plugins]
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

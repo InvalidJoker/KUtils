@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.paperweight)
 }
 
+val minecraftVersion = libs.versions.minecraft.get()
+
 repositories {
     mavenCentral()
     maven("https://repo.fruxz.dev/releases/") {
@@ -13,12 +15,10 @@ repositories {
     }
 }
 
-val minecraftVersion = libs.versions.minecraft.get()
-
 dependencies {
     paperweight.paperDevBundle("$minecraftVersion-R0.1-SNAPSHOT")
-    api(project(":core"))
-    api(libs.bundles.minecraft)
+    api(project(":paper"))
+    implementation(libs.fuel)
 }
 
 paperweight {
