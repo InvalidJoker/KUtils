@@ -79,3 +79,14 @@ fun <K> Map<K, Double>.chooseByProbability(amount: Int): List<K> {
 fun <T : Any> T.getThisLogger(): Logger {
     return LoggerFactory.getLogger(this::class.java)
 }
+
+
+inline fun <T> T.ifTrue(
+    condition: () -> Boolean,
+    process: (T) -> Unit,
+): T {
+    if (condition()) {
+        process(this)
+    }
+    return this
+}

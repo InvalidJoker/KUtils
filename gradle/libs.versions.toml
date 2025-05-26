@@ -7,6 +7,7 @@ paperweight = "2.0.0-beta.17"
 minecraft = "1.21.5"
 logback = "1.5.13"
 ascend = "2025.5-c701147"
+gson = "2.11.0"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -15,11 +16,12 @@ kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-j
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ascend = { module = "dev.fruxz:ascend", version.ref = "ascend" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 # Libraries can be bundled together for easier import
 [bundles]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
-utils = ["logback", "ascend"]
+utils = ["logback", "ascend", "gson"]
 
 [plugins]
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
