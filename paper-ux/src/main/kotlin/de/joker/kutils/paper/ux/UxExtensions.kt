@@ -15,6 +15,11 @@ import org.bukkit.potion.PotionEffectType
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import com.destroystokyo.paper.ParticleBuilder
+import de.joker.kutils.paper.extensions.generateBlockEdgePoints
+import de.joker.kutils.paper.extensions.getAlphaInRadians
+import de.joker.kutils.paper.extensions.getBoundingBoxBlockFaceMiddleLocation
+import de.joker.kutils.paper.extensions.getDifferenceLocation
+import de.joker.kutils.paper.extensions.getLocationWithWorld
 import de.joker.kutils.paper.extensions.minecraftTicks
 import de.joker.kutils.paper.ux.effect.ParticleData
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -77,27 +82,6 @@ fun spawnParticleLine(start: Location, end: Location, clickedFace: BlockFace, co
 }
 
 /**
- * Calculates the value of alpha in radians based on the start location.
- *
- * @param start the starting location
- * @return the value of alpha in radians
- */
-fun getAlphaInRadians(start: Location): Double {
-    return (start.clone().yaw + 180) / 180 * Math.PI + 0 / 180 * Math.PI
-}
-
-/**
- * Calculates a new location with the specified world based on the player's eye location and the given alpha angle.
- *
- * @param playerEyeLocation the player's eye location
- * @param alpha the angle in radians
- * @return a new location with the specified world
- */
-fun getLocationWithWorld(playerEyeLocation: Location, alpha: Double): Location {
-    return Location(playerEyeLocation.clone().world, cos(alpha), 0.0, sin(alpha))
-}
-
-/**
  * Creates a particle at the specified location with the given properties.
  *
  * @param start The starting location for the particle.
@@ -110,58 +94,6 @@ fun createParticle(start: Location, blockLoc: Location, color: Color, playerEyeL
     val t = (c / 10.0)
     val particleLocation = playerEyeLocation.clone().add(getDifferenceLocation(blockLoc, playerEyeLocation).multiply(t))
     start.world.spawnParticle(Particle.DUST, particleLocation, 1, 0.0, 0.0, 0.0, Particle.DustOptions(color, 1f))
-}
-
-/**
- * Calculates the difference between two locations.
- *
- * @param location1 The first location.
- * @param location2 The second location.
- * @return The difference between the two locations.
- */
-fun getDifferenceLocation(location1: Location, location2: Location): Location {
-    return location1.clone().subtract(location2)
-}
-
-
-/**
- * Generates a list of edge points on the block's bounding box.
- *
- * @param location The location of the block.
- * @param stepSize The size of each step for generating points. Defaults to 0.1.
- * @return A list of edge points on the block's bounding box.
- */
-fun generateBlockEdgePoints(location: Location, stepSize: Double = 0.1): List<Location> {
-    val boundingBox = location.block.boundingBox
-
-    val xCount = ((boundingBox.maxX - boundingBox.minX) / stepSize).toInt()
-    val yCount = ((boundingBox.maxY - boundingBox.minY) / stepSize).toInt()
-    val zCount = ((boundingBox.maxZ - boundingBox.minZ) / stepSize).toInt()
-
-    val threshold = 0.15
-
-    return mutableListOf<Location>().apply {
-        for (xIndex in 0..xCount) {
-            val x = boundingBox.minX + (xIndex * stepSize)
-            for (yIndex in 0..yCount) {
-                val y = boundingBox.minY + (yIndex * stepSize)
-                for (zIndex in 0..zCount) {
-                    val z = boundingBox.minZ + (zIndex * stepSize)
-
-                    val isEdgeX = x <= boundingBox.minX + threshold || x >= boundingBox.maxX - threshold
-                    val isEdgeY = y <= boundingBox.minY + threshold || y >= boundingBox.maxY - threshold
-                    val isEdgeZ = z <= boundingBox.minZ + threshold || z >= boundingBox.maxZ - threshold
-
-                    // Checking if the point is on the edge in exactly two dimensions.
-                    val isEdge = listOf(isEdgeX, isEdgeY, isEdgeZ).count { it } == 2
-
-                    if (isEdge) {
-                        add(Location(location.world, x, y, z))
-                    }
-                }
-            }
-        }
-    }
 }
 
 /**
@@ -206,20 +138,6 @@ fun spawnBlockOutline(location: Location, color: Color) {
     val points = generateBlockEdgePoints(location)
     points.forEach { it.spawnColoredParticle(color) }
 }
-
-fun Location.getBoundingBoxBlockFaceMiddleLocation(blockFace: BlockFace): Location {
-    val boundingBox = block.boundingBox
-    val x =
-        boundingBox.minX + ((boundingBox.maxX - boundingBox.minX) / 2) + (blockFace.modX * ((boundingBox.maxX - boundingBox.minX) / 2))
-    val y =
-        boundingBox.minY + ((boundingBox.maxY - boundingBox.minY) / 2) + (blockFace.modY * ((boundingBox.maxY - boundingBox.minY) / 2))
-    val z =
-        boundingBox.minZ + ((boundingBox.maxZ - boundingBox.minZ) / 2) + (blockFace.modZ * ((boundingBox.maxZ - boundingBox.minZ) / 2))
-
-    return Location(world, x, y, z)
-}
-
-
 
 // Melody builder
 fun buildMelody(builder: MelodyBuilder.() -> Unit): Melody {
