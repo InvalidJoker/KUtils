@@ -11,6 +11,7 @@ gson = "2.11.0"
 stacked = "2025.5-ad26dc0"
 fuel = "3.0.0-alpha04"
 dotenv = "6.5.1"
+commandapi = "10.0.0"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -24,10 +25,20 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 fuel = { module = "com.github.kittinunf.fuel:fuel", version.ref = "fuel" }
 dotenv = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenv" }
 
+
+# Command API
+commandapi-bukkit = { module = "dev.jorel:commandapi-bukkit-plugin", version.ref = "commandapi" }
+commandapi-bukkit-kotlin = { module = "dev.jorel:commandapi-bukkit-kotlin", version.ref = "commandapi" }
+commandapi-core = { module = "dev.jorel:commandapi-core", version.ref = "commandapi" }
+commandapi-velocity = { module = "dev.jorel:commandapi-velocity-core", version.ref = "commandapi" }
+commandapi-velocity-kotlin = { module = "dev.jorel:commandapi-velocity-kotlin", version.ref = "commandapi" }
+
 [bundles]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
 utils = ["logback", "ascend", "gson", "dotenv"]
 minecraft = ["stacked"]
+commandapi-bukkit = ["commandapi-bukkit", "commandapi-bukkit-kotlin", "commandapi-core"]
+commandapi-velocity = ["commandapi-velocity", "commandapi-velocity-kotlin", "commandapi-core"]
 
 [plugins]
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

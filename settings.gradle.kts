@@ -25,5 +25,6 @@ include(":core")
 include(":paper")
 include(":paper-inventory")
 include(":paper-ux")
+include(":paper-commands")
 
 rootProject.name = "KUtils"
