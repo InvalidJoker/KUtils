@@ -91,7 +91,7 @@ class ConversationAPI(private val player: Player) {
         private var onCancelCallback: (() -> Unit)? = null
 
         // Add a question to the conversation with simple boolean validator
-        fun question(identifier: String, prompt: Component, validator: (String) -> Boolean) {
+        fun simpleQuestion(identifier: String, prompt: Component, validator: (String) -> Boolean) {
             questionList.add(Question(
                 identifier,
                 prompt,
@@ -109,7 +109,7 @@ class ConversationAPI(private val player: Player) {
         }
 
         // Add a question with custom retry message
-        fun question(
+        fun questionWithRetry(
             identifier: String,
             prompt: Component,
             retryMessage: Component,
@@ -123,7 +123,7 @@ class ConversationAPI(private val player: Player) {
             ))
         }
 
-        fun question(
+        fun validatedQuestion(
             identifier: String,
             prompt: Component,
             validator: ConversationValidators.() -> (String) -> ValidationResult
@@ -132,7 +132,7 @@ class ConversationAPI(private val player: Player) {
         }
 
         // Add a question with custom retry message and advanced validation
-        fun question(
+        fun validatedQuestionWithRetry(
             identifier: String,
             prompt: Component,
             retryMessage: Component,
