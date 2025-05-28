@@ -17,27 +17,6 @@
 
 ## 📦 Installation
 
-### Option 1: **Using Github Repo** (Stable)
-
-```kotlin
-repositories {
-    maven("https://maven.pkg.github.com/InvalidJoker/KUtils")
-}
-
-dependencies {
-    implementation("de.joker.kutils:core:$version")
-    implementation("de.joker.kutils:paper:$version")           // Optional
-    implementation("de.joker.kutils:paper-ux:$version")        // Optional
-    implementation("de.joker.kutils:paper-inventory:$version") // Optional
-}
-```
-
-> Replace `$version` with the latest version from the [Releases](https://github.com/InvalidJoker/KUtils/releases).
-
----
-
-### Option 2: **Using JitPack** (Latest commit or GitHub release)
-
 ```kotlin
 repositories {
     maven("https://jitpack.io")
@@ -51,7 +30,7 @@ dependencies {
 }
 ```
 
-> Replace `$jitpackVersion` with a commit hash.
+> Replace `$jitpackVersion` with a commit hash or release.
 > See: [JitPack Page](https://jitpack.io/#InvalidJoker/KUtils)
 
 ---
@@ -72,3 +51,4 @@ We welcome:
 
 * [PaperMC](https://papermc.io/) — for the plugin development foundation
 * [Fruxz](https://github.com/TheFruxz) — for inspiration and supportive libraries
+* [KSpigot](https://github.com/jakobkmar/KSpigot) — for initial ideas and the entire gui system

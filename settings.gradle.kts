@@ -22,6 +22,7 @@ plugins {
 }
 
 include(":core")
+include(":core-i18n")
 include(":paper")
 include(":paper-inventory")
 include(":paper-ux")
