@@ -26,9 +26,11 @@ repositories {
 
 dependencies {
     implementation("com.github.InvalidJoker.KUtils:core:$jitpackVersion")
+    implementation("com.github.InvalidJoker.KUtils:core-i18n:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper-ux:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper-inventory:$jitpackVersion")
+    implementation("com.github.InvalidJoker.KUtils:paper-commands:$jitpackVersion")
 }
 ```
 

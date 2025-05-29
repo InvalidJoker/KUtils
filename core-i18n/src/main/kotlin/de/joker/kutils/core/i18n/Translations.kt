@@ -2,9 +2,11 @@ package de.joker.kutils.core.i18n
 
 import de.joker.kutils.core.i18n.interfaces.TranslationHook
 import de.joker.kutils.core.i18n.interfaces.TranslationSource
+import de.joker.kutils.core.i18n.sources.JsonTranslationSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 object Translations {
 
@@ -13,6 +15,10 @@ object Translations {
 
     fun registerTranslationHook(hook: TranslationHook) {
         translationHooks.add(hook)
+    }
+
+    val defaultTranslationSource by lazy {
+        JsonTranslationSource(File("translations"))
     }
 
     fun getTranslation(language: String, key: String, placeholders: Map<String, Any?> = mapOf()): String? {
@@ -30,7 +36,7 @@ object Translations {
     val translations get() = manager
 
     fun load(
-        source: TranslationSource,
+        source: TranslationSource = defaultTranslationSource,
         writeNotFound: Boolean = true,
         callback: ((Map<String, Int>) -> Unit)? = null
     ) {

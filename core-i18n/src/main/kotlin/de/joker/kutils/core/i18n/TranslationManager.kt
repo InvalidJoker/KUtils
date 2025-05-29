@@ -156,4 +156,18 @@ class TranslationManager(
             lock.readLock().unlock()
         }
     }
+
+    fun addTranslation(
+        languageCode: String,
+        messageKey: String,
+        message: String
+    ) {
+        val translation = Translation(languageCode, messageKey, message)
+        val previousTranslations = cache[languageCode] ?: emptyList()
+        put(languageCode, previousTranslations + translation)
+        // save to source
+        CoroutineScope(Dispatchers.Default).launch {
+            source.addTranslation(languageCode, messageKey, message)
+        }
+    }
 }
