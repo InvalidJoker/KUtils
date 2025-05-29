@@ -5,10 +5,9 @@ plugins {
 val projectVersion: String by project
 
 subprojects {
-
     repositories {
         mavenCentral()
-        maven("https://repo.fruxz.dev/releases/") {
+        maven("https://nexus.fruxz.dev/repository/public/") {
             content {
                 includeGroup("dev.fruxz")
             }
