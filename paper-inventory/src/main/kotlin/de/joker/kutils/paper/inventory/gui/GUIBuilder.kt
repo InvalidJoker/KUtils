@@ -6,7 +6,7 @@ import de.joker.kutils.paper.inventory.gui.elements.*
 import org.bukkit.inventory.ItemStack
 import kotlin.math.absoluteValue
 
-fun <T : ForInventory> kSpigotGUI(
+fun <T : ForInventory> buildGUI(
     type: GUIType<T>,
     guiCreator: GUICreator<T> = IndividualGUICreator(),
     builder: GUIBuilder<T>.() -> Unit,

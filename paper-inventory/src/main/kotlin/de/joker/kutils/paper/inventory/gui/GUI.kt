@@ -193,13 +193,13 @@ class GUIInstance<T : ForInventory>(
 
     /**
      * Registers this GUI.
-     * (KSpigot will listen for actions in the inventory.)
+     * (KUtils will listen for actions in the inventory.)
      */
     @Suppress("UNCHECKED_CAST")
     fun register() = GUIHolder.register(this as GUIInstance<ForInventory>)
 
     /**
-     * Stops KSpigot from listening to actions in this
+     * KUtils tops from listening to actions in this
      * GUI anymore.
      */
     fun unregister() {
