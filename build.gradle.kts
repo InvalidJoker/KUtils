@@ -5,10 +5,9 @@ plugins {
 val projectVersion: String by project
 
 subprojects {
-
     repositories {
         mavenCentral()
-        maven("https://repo.fruxz.dev/releases/") {
+        maven("https://nexus.fruxz.dev/repository/public/") {
             content {
                 includeGroup("dev.fruxz")
             }
@@ -16,6 +15,6 @@ subprojects {
     }
 
     // Set the group ID for all projects in the buildSrc module.
-    group = "de.joker.kutils"
+    group = "de.joker"
     version = "1.21.5-${projectVersion}"
 }

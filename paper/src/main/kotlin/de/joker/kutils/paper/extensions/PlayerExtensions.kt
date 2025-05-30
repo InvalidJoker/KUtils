@@ -80,8 +80,11 @@ fun Collection<Player>.sendMessagePlain(message: Component) {
     forEach { it.sendMessagePlain(message) }
 }
 
-
 fun Player.send(message: String) {
+    this.sendMessage(text(message))
+}
+
+fun CommandSender.send(message: String) {
     this.sendMessage(text(message))
 }
 

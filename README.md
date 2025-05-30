@@ -7,36 +7,17 @@
 ## 🧩 Modules
 
 | Module            | Description                                    |
-| ----------------- | ---------------------------------------------- |
+|-------------------|------------------------------------------------|
 | `core`            | General-purpose Kotlin utilities               |
+| `core-i18n`       | Internationalization utilities for Kotlin      |
 | `paper`           | PaperMC-specific plugin utilities              |
 | `paper-ux`        | Tools for player messaging and UX enhancements |
 | `paper-inventory` | Simplified inventory GUI handling for Paper    |
+| `paper-commands`  | CommandAPI utilities and enhancements          |
 
 ---
 
 ## 📦 Installation
-
-### Option 1: **Using Github Repo** (Stable)
-
-```kotlin
-repositories {
-    maven("https://maven.pkg.github.com/InvalidJoker/KUtils")
-}
-
-dependencies {
-    implementation("de.joker.kutils:core:$version")
-    implementation("de.joker.kutils:paper:$version")           // Optional
-    implementation("de.joker.kutils:paper-ux:$version")        // Optional
-    implementation("de.joker.kutils:paper-inventory:$version") // Optional
-}
-```
-
-> Replace `$version` with the latest version from the [Releases](https://github.com/InvalidJoker/KUtils/releases).
-
----
-
-### Option 2: **Using JitPack** (Latest commit or GitHub release)
 
 ```kotlin
 repositories {
@@ -45,13 +26,15 @@ repositories {
 
 dependencies {
     implementation("com.github.InvalidJoker.KUtils:core:$jitpackVersion")
+    implementation("com.github.InvalidJoker.KUtils:core-i18n:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper-ux:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper-inventory:$jitpackVersion")
+    implementation("com.github.InvalidJoker.KUtils:paper-commands:$jitpackVersion")
 }
 ```
 
-> Replace `$jitpackVersion` with a commit hash.
+> Replace `$jitpackVersion` with a commit hash or release.
 > See: [JitPack Page](https://jitpack.io/#InvalidJoker/KUtils)
 
 ---
@@ -72,3 +55,4 @@ We welcome:
 
 * [PaperMC](https://papermc.io/) — for the plugin development foundation
 * [Fruxz](https://github.com/TheFruxz) — for inspiration and supportive libraries
+* [KSpigot](https://github.com/jakobkmar/KSpigot) — for initial ideas and the entire gui system

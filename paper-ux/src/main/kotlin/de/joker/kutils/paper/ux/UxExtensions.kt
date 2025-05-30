@@ -1,19 +1,5 @@
 package de.joker.kutils.paper.ux
 
-import dev.fruxz.ascend.extension.time.inWholeMinecraftTicks
-import org.bukkit.Color
-import org.bukkit.Location
-import org.bukkit.Particle
-import org.bukkit.Registry
-import org.bukkit.Sound
-import org.bukkit.block.BlockFace
-import org.bukkit.entity.Player
-import kotlin.math.cos
-import kotlin.math.sin
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 import com.destroystokyo.paper.ParticleBuilder
 import de.joker.kutils.paper.extensions.generateBlockEdgePoints
 import de.joker.kutils.paper.extensions.getAlphaInRadians
@@ -21,44 +7,21 @@ import de.joker.kutils.paper.extensions.getBoundingBoxBlockFaceMiddleLocation
 import de.joker.kutils.paper.extensions.getDifferenceLocation
 import de.joker.kutils.paper.extensions.getLocationWithWorld
 import de.joker.kutils.paper.extensions.minecraftTicks
+import de.joker.kutils.paper.extensions.spawnColoredParticle
 import de.joker.kutils.paper.ux.effect.ParticleData
+import dev.fruxz.ascend.extension.time.inWholeMinecraftTicks
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.bukkit.*
+import org.bukkit.block.BlockFace
+import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
-
-/**
- * Spawns particles at the specified location.
- *
- * @param particle the type of particle to spawn
- * @param count the number of particles to spawn
- * @param offsetX the x-axis offset of the particle
- * @param offsetY the y-axis offset of the particle
- * @param offsetZ the z-axis offset of the particle
- * @param speed the speed of the particles
- * @param dustOptions the dust options for the particles (if applicable)
- */
-fun Location.spawnParticle(
-    particle: Particle,
-    count: Int,
-    offsetX: Double,
-    offsetY: Double,
-    offsetZ: Double,
-    speed: Double,
-    dustOptions: Particle.DustOptions
-) {
-    this.world.spawnParticle(particle, this, count, offsetX, offsetY, offsetZ, speed, dustOptions)
-}
-
-/**
- * Spawns a colored particle at the given location.
- *
- * @param color The color of the particle. Defaults to white.
- */
-fun Location.spawnColoredParticle(color: Color = Color.WHITE) {
-    spawnParticle(Particle.DUST, 1, 0.0, 0.0, 0.0, 0.0, Particle.DustOptions(color, 0.4f))
-}
 
 /**
  * Spawns a line of particles from the start location to the end location, with the given color.

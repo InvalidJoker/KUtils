@@ -21,6 +21,7 @@ import org.bukkit.inventory.InventoryHolder
 import org.bukkit.persistence.PersistentDataType
 import org.jetbrains.annotations.ApiStatus.Experimental
 import de.joker.kutils.core.extensions.shuffled
+import org.bukkit.event.inventory.InventoryAction
 
 fun Inventory.containsExact(itemStack: ItemStack): Boolean {
     return contents.any { it?.toItemBuilder()?.isExact(itemStack) == true }
@@ -415,3 +416,19 @@ fun Inventory.clone(inventoryHolder: InventoryHolder? = null, shuffeld: Boolean 
 
     return newInventory
 }
+/**
+ * Closes the inventory for all viewers.
+ */
+fun Inventory.closeForViewers() = HashSet(viewers).forEach { it.closeInventory() }
+
+/**
+ * @return True, if the action was a simple inventory click.
+ * (a mouse click, where items were picked up or placed)
+ */
+val InventoryAction.isSimple
+    get() = when (this) {
+        InventoryAction.PLACE_ALL, InventoryAction.PLACE_ONE,
+        InventoryAction.PICKUP_ALL, InventoryAction.PICKUP_HALF, InventoryAction.PICKUP_ONE,
+            -> true
+        else -> false
+    }

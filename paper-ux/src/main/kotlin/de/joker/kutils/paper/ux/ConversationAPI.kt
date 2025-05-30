@@ -22,7 +22,7 @@ import java.util.*
  *
  *     done { inputs ->
  *         // Developer handles completion messaging
- *         player.sendMessage(text("<green>Welcome ${'$'}{inputs["name"]}, age ${'$'}{inputs["age"]}!"))
+ *         player.sendMessage(text("<green>Welcome, ${inputs["name"]}! You are ${inputs["age"]} years old."))
  *     }
  *
  *     onCancel {

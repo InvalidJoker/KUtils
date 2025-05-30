@@ -1,6 +1,9 @@
 package de.joker.kutils.paper
 
+import de.joker.kutils.paper.coroutines.pluginCoroutineDispatcher
 import de.joker.kutils.paper.event.custom.CustomEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -10,6 +13,11 @@ lateinit var PluginInstance: KPlugin
 
 
 abstract class KPlugin : JavaPlugin() {
+    val syncDispatcher by lazy { pluginCoroutineDispatcher(false) }
+    val asyncDispatcher by lazy { pluginCoroutineDispatcher(true) }
+
+    val coroutineScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + coroutineScope.coroutineContext) }
+
     /**
      * Called when the plugin was loaded
      */
