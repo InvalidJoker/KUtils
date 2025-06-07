@@ -6,6 +6,7 @@ import org.bukkit.Bukkit
 import kotlinx.coroutines.*
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
+import java.io.Closeable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
@@ -101,11 +102,37 @@ fun taskRun(sync: Boolean = true, runnable: () -> Unit) {
     }
 }
 
-fun taskRunTimer(period: Long = 1, name: String = "", block: () -> Unit): BukkitTask {
+fun taskRunTimer(period: Long = 1,
+                 name: String = "",
+                 sync: Boolean = true,
+                 block: () -> Unit
+): BukkitTask {
     return object : BukkitRunnable() {
         override fun run() = timeLimit(period, name, block)
-    }.runTaskTimer(PluginInstance, 0, period)
+    }.let { runnable ->
+            if (sync) {
+                runnable.runTaskTimer(PluginInstance, 0, period)
+            } else {
+                runnable.runTaskTimerAsynchronously(PluginInstance, 0, period)
+            }
+        }
 }
+
+fun autoCloseTimer(
+    period: Long = 1,
+    name: String = "",
+    sync: Boolean = true,
+    block: () -> Unit
+): Closeable {
+    val handler = taskRunTimer(period, name, sync) {
+        block()
+    }
+
+    return Closeable {
+        handler.cancel()
+    }
+}
+
 fun task(
     period: Long = 1,
     howOften: Long = 1,
