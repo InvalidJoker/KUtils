@@ -247,7 +247,18 @@ val ItemStack.identifier: String?
         PersistentDataType.STRING
     )
 
-fun ItemStack.identifier(namespacedKey: NamespacedKey): String? {
+fun ItemStack.identify(identifier: String, vararg identifiers: Map<NamespacedKey, String>? = arrayOf()): ItemStack {
+    return this.toItemBuilder {
+        addPersistentData(NAMESPACE_ITEM_IDENTIFIER, identifier)
+        identifiers.forEach { map ->
+            map?.forEach { (key, value) ->
+                addPersistentData(key, value)
+            }
+        }
+    }.build()
+}
+
+fun ItemStack.setKey(namespacedKey: NamespacedKey): String? {
     return this.itemMeta?.persistentDataContainer?.get(
         namespacedKey,
         PersistentDataType.STRING
