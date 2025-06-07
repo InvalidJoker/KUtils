@@ -4,7 +4,7 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-abstract class KEvent(private val isAsync: Boolean = false) : Event(isAsync), Cancellable {
+abstract class KEvent(isAsync: Boolean = false) : Event(isAsync), Cancellable {
     companion object {
         private val handlerList = HandlerList()
 

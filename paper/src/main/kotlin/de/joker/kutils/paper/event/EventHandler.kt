@@ -1,8 +1,8 @@
 package de.joker.kutils.paper.event
 
-abstract class EventHandler {
-    abstract fun load()
+interface EventHandler {
+    fun load()
 
-    abstract fun unload()
+    fun unload()
 
 }
