@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
-object CustomEventListener: EventHandler() {
+object CustomEventListener: EventHandler {
     override fun load() {
         onPlayerInteract.register()
         onEntityDamageByEntity.register()
