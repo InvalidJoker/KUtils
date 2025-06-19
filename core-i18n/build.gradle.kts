@@ -5,6 +5,6 @@ plugins {
 
 
 dependencies {
-    api(project(":core"))
+    implementation(project(":core"))
     implementation(libs.caffeine)
 }

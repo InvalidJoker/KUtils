@@ -29,7 +29,7 @@ object MineSkinFetcher {
             .addHeader("Authorization", "Bearer $apiKey")
             .build()
         val response = client.newCall(request).execute()
-        val sR = gson.fromJson(response.body.string(), MineSkinSingleSkinResponse::class.java)
+        val sR = gson.fromJson(response.body?.string(), MineSkinSingleSkinResponse::class.java)
         if (sR.skin == null) {
             return null
         }

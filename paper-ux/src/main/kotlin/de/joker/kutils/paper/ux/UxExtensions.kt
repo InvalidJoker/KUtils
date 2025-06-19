@@ -261,7 +261,7 @@ fun ParticleBuilder.offset(offset: Number) = offset(offset.toDouble(), offset.to
 
 fun ParticleBuilder.offset(offsetX: Number, offsetZ: Number) = offset(offsetX.toDouble(), .0, offsetZ.toDouble())
 
-fun ParticleBuilder.location(loc: Location) = location(loc)
+fun ParticleBuilder.loc(loc: Location) = location(loc)
 
 fun particleOf(particle: Particle): ParticleData = ParticleData(particle)
 
