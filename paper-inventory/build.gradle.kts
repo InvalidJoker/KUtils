@@ -8,8 +8,8 @@ val minecraftVersion = libs.versions.minecraft.get()
 
 dependencies {
     paperweight.paperDevBundle("$minecraftVersion-R0.1-SNAPSHOT")
-    api(project(":paper"))
-    implementation(libs.fuel)
+    implementation(project(":paper"))
+    implementation(libs.okhttp)
 }
 
 paperweight {

@@ -1,6 +1,5 @@
 package de.joker.kutils.paper.file
 
-import net.minecraft.core.BlockPos
 import org.bukkit.Bukkit
 import org.bukkit.Location
 
@@ -12,13 +11,8 @@ data class StringLocation(
     val pitch: Float,
     val world: String,
 ) {
-
     override fun toString(): String {
         return "${x},${y},${z},${yaw},${pitch},${world}"
-    }
-
-    fun toBlockPos(): BlockPos {
-        return BlockPos(x.toInt(), y.toInt(), z.toInt())
     }
 
     fun toBlockString(): String {

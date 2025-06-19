@@ -72,8 +72,6 @@ fun Player.injectPacketInterceptor() {
             try {
                 if (packet is Packet<*>) {
                     PacketInterceptor.handlePacket(this@injectPacketInterceptor, packet)
-                } else {
-                    getLogger().warn("Received a packet of type ${packet.javaClass.simpleName} but it is not a packet.")
                 }
             } catch (e: Exception) {
                 getLogger().warn("An error occurred while handling a packet.")
