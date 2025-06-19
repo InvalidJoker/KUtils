@@ -13,3 +13,11 @@ fun lerp(currentValue: Float, targetValue: Float, deltaTime: Float, speed: Float
     val difference = targetValue - currentValue
     return currentValue + difference * speed * deltaTime
 }
+
+fun vec(x: Number = 0.0, y: Number = 0.0, z: Number = 0.0) = Vector(x.toDouble(), y.toDouble(), z.toDouble())
+fun vecXY(x: Number, y: Number) = vec(x, y)
+fun vecXZ(x: Number, z: Number) = vec(x, z = z)
+fun vecYZ(y: Number, z: Number) = vec(y = y, z = z)
+fun vecX(x: Number) = vec(x)
+fun vecY(y: Number) = vec(y = y)
+fun vecZ(z: Number) = vec(z = z)

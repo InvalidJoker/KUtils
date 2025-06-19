@@ -11,7 +11,7 @@ import java.io.IOException
  * This class extends [org.bukkit.configuration.file.YamlConfiguration] and provides additional functionality for handling file operations and
  * loading/saving configuration data.
  *
- * @property fileName The name of the configuration file.
+ * @property path The name of the configuration file.
  */
 abstract class FileYamlConfig(var path: String) : YamlConfiguration() {
     private var seperator: String?

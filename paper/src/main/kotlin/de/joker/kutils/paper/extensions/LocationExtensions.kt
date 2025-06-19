@@ -1,8 +1,11 @@
 package de.joker.kutils.paper.extensions
 
 import org.bukkit.*
+import org.bukkit.block.Barrel
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
+import org.bukkit.block.Chest
+import org.bukkit.block.Container
 import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
@@ -201,3 +204,39 @@ fun Location.getBoundingBoxBlockFaceMiddleLocation(blockFace: BlockFace): Locati
 
     return Location(world, x, y, z)
 }
+
+fun Block.getConnectedStorageContainers() = sequenceOf(
+    getRelative(1, 0, 0),
+    getRelative(-1, 0, 0),
+    getRelative(0, 1, 0),
+    getRelative(0, -1, 0),
+    getRelative(0, 0, 1),
+    getRelative(0, 0, -1)
+)
+    .filter { it.state is Container }
+    .map { it.state as Container }
+    .filter { it is Chest || it is Barrel }
+
+fun Material.asQuantity(amount: Int): ItemStack {
+    return ItemStack(this, amount)
+}
+
+/**
+ * Assumes that this Location has world data.
+ * If not, an exception will be thrown.
+ */
+val Location.unsafeWorld: World
+    get() = world
+        ?: throw NullPointerException("The world of the location is null!")
+
+/**
+ * @return All blocks in this chunk.
+ */
+val Chunk.allBlocks
+    get() = LinkedHashSet<Block>().apply {
+        for (y in world.minHeight until world.maxHeight) {
+            for (x in 0 until 16)
+                for (z in 0 until 16)
+                    add(getBlock(x, y, z))
+        }
+    }

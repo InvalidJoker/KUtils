@@ -15,10 +15,6 @@ data class StringLocation(
         return "${x},${y},${z},${yaw},${pitch},${world}"
     }
 
-    fun toBlockString(): String {
-        return "${x.toInt()},${y.toInt()},${z.toInt()}"
-    }
-
     fun toBukkitLocation(): Location {
         return Location(
             Bukkit.getWorld(world),

@@ -86,7 +86,6 @@ val Float.minecraftTicks: Duration
 
 /**
  * Converts a Paper [Server] to a native [MinecraftServer].
- * The instance should be a [DedicatedServer], but this api does not guarantee that.
  */
 val Server.mcServer: MinecraftServer
     get() = (this as CraftServer).server
