@@ -10,6 +10,9 @@ fun <T : Any> T.getLogger(): Logger {
     return LoggerFactory.getLogger(this::class.java)
 }
 
+val <T : Any> T.logger: Logger
+    get() = getLogger()
+
 fun <T : Any> T.nullIf(condition: (T) -> Boolean): T? {
     return if (condition(this)) null else this
 }
