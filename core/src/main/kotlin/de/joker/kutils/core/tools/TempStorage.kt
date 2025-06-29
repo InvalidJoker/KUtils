@@ -1,151 +1,119 @@
 package de.joker.kutils.core.tools
 
-
+import dev.fruxz.ascend.json.globalJson
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.Json
 import java.io.File
 
 /**
- * The `TempStorage` class represents a utility for storing temporary files during runtime.
+ * A utility class for storing and retrieving temporary files, including serialization support.
  */
-open class BaseTempStorage(dir: String = ".temp") {
+open class BaseTempStorage(
+    dir: String = ".temp",
+    private val json: Json = globalJson
+) {
+    private val tempFolder = File(dir).apply { mkdirs() }
 
     /**
-     * Represents a temporary folder used for storing files during runtime.
-     *
-     * The `tempFolder` variable is a private property that holds a reference to a `File` object
-     * representing the temporary folder. The folder is created if it does not already exist.
-     *
-     * Usage examples:
-     *
-     * - Saving a temporary file with given name and content:
-     * ```kotlin
-     * saveTempFile("filename.txt", "Hello, World!")*/
-    private val tempFolder = File(dir).also { it.mkdirs() }
-
-    /**
-     * Saves a temporary file with the given name and content.
-     *
-     * @param name The name of the temporary file.
-     * @param content The content to be written to the temporary file, as a byte array.
+     * Saves a temporary file with the given name and byte content.
      */
     fun saveTempFile(name: String, content: ByteArray) {
-        val file = File(tempFolder, name).also { it.createFileIfNotExists() }
+        val file = File(tempFolder, name)
+        file.ensureParentExists()
         file.writeBytes(content)
     }
 
     /**
-     * Saves the content to a temporary file with the given name.
-     *
-     * @param name The name of the temporary file.
-     * @param content The content to be written to the file.
+     * Saves a temporary file with the given name and text content.
      */
     fun saveTempFile(name: String, content: String) {
-        val file = File(tempFolder, name).also { it.createFileIfNotExists() }
+        val file = File(tempFolder, name)
+        file.ensureParentExists()
         file.writeText(content)
     }
 
     /**
-     * Saves a temporary file with the specified name and content.
-     *
-     * @param name the name of the temporary file to be saved
-     * @param content the content of the temporary file to be saved
+     * Saves a temporary file by copying another file.
      */
     fun saveTempFile(name: String, content: File) {
-        val file = File(tempFolder, name).also { it.createFileIfNotExists() }
-        content.copyTo(file, true)
+        val target = File(tempFolder, name)
+        target.ensureParentExists()
+        content.copyTo(target, overwrite = true)
     }
 
     /**
-     * Deletes the temporary file with the specified name.
-     *
-     * @param name the name of the file to be deleted
-     * @return true if the file was successfully deleted, false otherwise
+     * Saves a serializable object into a temp file as JSON.
+     */
+    fun <T> saveTempFile(name: String, data: T, serializer: KSerializer<T>) {
+        val jsonString = json.encodeToString(serializer, data)
+        saveTempFile(name, jsonString)
+    }
+
+    /**
+     * Deletes a temp file.
      */
     fun deleteTempFile(name: String): Boolean {
-        val file = File(tempFolder, name)
-        return file.delete()
+        return File(tempFolder, name).delete()
     }
 
     /**
-     * Reads the content of a temporary file.
-     *
-     * @param name The name of the temporary file to read.
-     * @return The content of the temporary file as a byte array.
+     * Reads a temp file as bytes.
      */
     fun readTempFile(name: String): ByteArray {
         val file = File(tempFolder, name)
+        if (!file.exists()) error("Temp file $name does not exist.")
         return file.readBytes()
     }
 
     /**
-     * Reads the content of a temporary file as a string.
-     *
-     * @param name the name of the temporary file to read
-     * @return the content of the temporary file as a string
+     * Reads a temp file as text.
      */
     fun readTempFileAsString(name: String): String {
-        val file = File(tempFolder, name).also { it.createFileIfNotExists() }
+        val file = File(tempFolder, name)
+        if (!file.exists()) error("Temp file $name does not exist.")
         return file.readText()
     }
 
     /**
-     * Reads the content of a temporary file as a string.
-     *
-     * @param file the file to read
-     * @return the content of the temporary file as a string
-     */
-    fun readTempFileAsString(file: File): String {
-        file.also { it.createFileIfNotExists() }
-        return file.readText()
-    }
-
-    /**
-     * Reads the content of a temporary file as a string, or returns null if the file does not exist.
-     *
-     * @param name the name of the temporary file to read
-     * @return the content of the file as a string, or null if the file does not exist
+     * Reads a temp file as text, or returns null if missing.
      */
     fun readTempFileAsStringOrNull(name: String): String? {
         val file = File(tempFolder, name)
-
-        if (!file.exists()) {
-            return null
-        }
-
-        return file.readText()
+        return if (file.exists()) file.readText() else null
     }
 
     /**
-     * Retrieves a temporary file with the specified name.
-     *
-     * @param name the name of the temporary file
-     * @return a [File] object representing the temporary file
+     * Reads a temp file as a deserialized object from JSON.
+     */
+    fun <T> readTempFileAs(name: String, serializer: KSerializer<T>): T {
+        val text = readTempFileAsString(name)
+        return json.decodeFromString(serializer, text)
+    }
+
+    /**
+     * Retrieves a temp file by name.
      */
     fun getTempFile(name: String): File {
         return File(tempFolder, name)
     }
 
     /**
-     * Retrieves the list of temporary files in the specified path.
-     *
-     * @param path The path of the temporary folder to retrieve files from.
-     * @return A list of names of the temporary files in the specified path. An empty list is returned if the folder does not exist or if there are no files in the folder.
+     * Lists files in a subfolder of the temp directory.
      */
     fun getTempFiles(path: String): List<File> {
-        val folder = File(tempFolder, path).also { it.mkdirs() }
+        val folder = File(tempFolder, path).apply { mkdirs() }
         return folder.listFiles()?.toList() ?: emptyList()
     }
 
     /**
-     * Creates a file if it does not already exist. If the parent directory does not exist, it will be created as well.
+     * Ensures parent folders exist for a file.
      */
-    private fun File.createFileIfNotExists() {
-        if (parentFile != null && !parentFile.exists()) {
-            parentFile.mkdirs()
-        }
-        if (!exists()) {
-            createNewFile()
-        }
+    private fun File.ensureParentExists() {
+        parentFile?.mkdirs()
     }
 }
 
+/**
+ * Singleton instance of the default temp storage.
+ */
 object TempStorage : BaseTempStorage()
