@@ -1,6 +1,5 @@
 package de.joker.kutils.core.extensions
 
-
 import dev.fruxz.ascend.tool.time.TimeUnit
 import dev.fruxz.ascend.tool.time.calendar.Calendar
 import dev.fruxz.ascend.tool.time.clock.TimeDisplay
@@ -37,20 +36,6 @@ fun Calendar.formatToDay(locale: Locale): String {
     return SimpleDateFormat.getDateInstance(Calendar.FormatStyle.FULL.ordinal, locale).format(javaDate)
 }
 
-fun isWeekend(): Boolean {
-    val now = LocalDateTime.now()
-    val dayOfWeek = now.dayOfWeek
-    val hour = now.hour
-
-    return when (dayOfWeek) {
-        DayOfWeek.FRIDAY -> hour >= 18
-        DayOfWeek.SATURDAY -> true
-        DayOfWeek.SUNDAY -> hour < 22
-        else -> false
-    }
-}
-
-
 fun parseDurationStringToEpoch(durationString: String): Long? {
     if (durationString.isEmpty()) return null
 
@@ -78,5 +63,4 @@ fun parseDurationStringToEpoch(durationString: String): Long? {
     return null
 }
 
-fun Instant.toCalendar() =
-    Calendar(GregorianCalendar.from(ZonedDateTime.from(this.atZone(ZoneId.systemDefault()))))
+fun Instant.toCalendar() = Calendar(this)

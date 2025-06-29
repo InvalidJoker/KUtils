@@ -1,7 +1,4 @@
-package de.joker.kutils.paper.inventory.skin.models.texture
-
-import de.joker.kutils.paper.inventory.skin.models.MineSkinLinks
-import de.joker.kutils.paper.inventory.skin.models.MineSkinWarning
+package de.joker.kutils.paper.mineskin.models
 
 
 data class MineSkinSingleSkinResponse(

@@ -27,8 +27,6 @@ fun Inventory.containsExact(itemStack: ItemStack): Boolean {
     return contents.any { it?.toItemBuilder()?.isExact(itemStack) == true }
 }
 
-
-
 fun ItemStack.changeNameForTime(name: String, time: Long, unit: TimeUnit = TimeUnit.SECONDS, afterTask: () -> Unit = {}) {
     val oldName = this.itemMeta.displayName()
     val meta = this.itemMeta

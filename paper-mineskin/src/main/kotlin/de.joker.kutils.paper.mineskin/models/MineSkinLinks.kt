@@ -1,4 +1,4 @@
-package de.joker.kutils.paper.inventory.skin.models
+package de.joker.kutils.paper.mineskin.models
 
 data class MineSkinLinks(
     val self: String,

@@ -1,17 +1,13 @@
 package de.joker.kutils.core.extensions
 
+import dev.fruxz.ascend.extension.logging.getThisFactoryLogger
 import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.util.*
 import kotlin.collections.iterator
 import kotlin.math.pow
 
-fun <T : Any> T.getLogger(): Logger {
-    return LoggerFactory.getLogger(this::class.java)
-}
-
 val <T : Any> T.logger: Logger
-    get() = getLogger()
+    get() = getThisFactoryLogger()
 
 fun <T : Any> T.nullIf(condition: (T) -> Boolean): T? {
     return if (condition(this)) null else this
@@ -55,7 +51,6 @@ fun String.titlecase(): String {
     return this.split(" ").joinToString(" ") { it.replaceFirstChar { char -> char.uppercaseChar() } }
 }
 
-
 fun <K> Map<K, Double>.chooseByProbability(): K? {
     val sum = this.values.sum()
     var random = Math.random() * sum
@@ -78,12 +73,6 @@ fun <K> Map<K, Double>.chooseByProbability(amount: Int): List<K> {
     }
     return result
 }
-
-
-fun <T : Any> T.getThisLogger(): Logger {
-    return LoggerFactory.getLogger(this::class.java)
-}
-
 
 inline fun <T> T.ifTrue(
     condition: () -> Boolean,

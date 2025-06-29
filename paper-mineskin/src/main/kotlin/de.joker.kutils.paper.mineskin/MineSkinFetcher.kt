@@ -1,9 +1,9 @@
-package de.joker.kutils.paper.inventory.skin
+package de.joker.kutils.paper.mineskin
 
 import com.google.gson.Gson
 import de.joker.kutils.core.tools.Environment
-import de.joker.kutils.paper.inventory.skin.models.texture.MineSkinResponse
-import de.joker.kutils.paper.inventory.skin.models.texture.MineSkinSingleSkinResponse
+import de.joker.kutils.paper.mineskin.models.MineSkinResponse
+import de.joker.kutils.paper.mineskin.models.MineSkinSingleSkinResponse
 import okhttp3.OkHttpClient
 import okhttp3.Request
 

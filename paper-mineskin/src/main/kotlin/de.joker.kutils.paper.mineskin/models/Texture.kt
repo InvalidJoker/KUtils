@@ -1,4 +1,4 @@
-package de.joker.kutils.paper.inventory.skin.models.texture
+package de.joker.kutils.paper.mineskin.models
 
 data class Texture(
     val signature: String = "",

@@ -2,11 +2,9 @@ package de.joker.kutils.paper.inventory
 
 import com.destroystokyo.paper.profile.ProfileProperty
 import com.google.gson.Gson
-import de.joker.kutils.paper.inventory.skin.MineSkinFetcher
 import de.joker.kutils.paper.inventory.skin.MinecraftSkin
 import de.joker.kutils.paper.inventory.skin.SKIN
 import de.joker.kutils.paper.inventory.skin.Textures
-import de.joker.kutils.paper.inventory.skin.models.texture.MineSkinResponse
 import dev.fruxz.ascend.extension.forceCastOrNull
 import dev.fruxz.stacked.text
 import net.kyori.adventure.text.Component
@@ -302,44 +300,6 @@ class ItemBuilder(material: Material, count: Int = 1, dsl: ItemBuilder.() -> Uni
             this.playerProfile = profile
         }
     }
-
-    /**
-     * Retrieves the skin texture of a player from MineSkin API based on the provided MineSkin UUID.
-     *
-     * @param mineSkinUUID The MineSkin UUID of the player.
-     * @return An ItemBuilder object representing the player's skin texture.
-     */
-    fun textureFromMineSkin(mineSkinUUID: String): ItemBuilder {
-        val fetcher = MineSkinFetcher.fetchSkinSignature(mineSkinUUID)
-
-        if (fetcher == null) {
-            throw IllegalArgumentException("Invalid MineSkin UUID: $mineSkinUUID")
-        }
-
-        return textureFromSkinTexture(fetcher)
-    }
-
-    /**
-     * Generates an ItemBuilder with a custom texture based on the provided SkinTexture.
-     *
-     * @param skinTexture The SkinTexture object containing the UUID, name, and texture information.
-     * @return An ItemBuilder instance with the custom texture applied.
-     */
-    private fun textureFromSkinTexture(skinTexture: MineSkinResponse): ItemBuilder {
-        val skinProfile = Bukkit.createProfile(UUID.randomUUID(), skinTexture.name)
-        skinProfile.setProperty(
-            ProfileProperty(
-                "textures",
-                skinTexture.texture.data.value,
-                skinTexture.texture.data.signature
-            )
-        )
-        val skullMeta = itemStack.itemMeta as SkullMeta
-        skullMeta.playerProfile = skinProfile
-        itemStack.itemMeta = skullMeta
-        return this
-    }
-
 
     /**
      * Change the displayname of the item if a certain condition is true.
