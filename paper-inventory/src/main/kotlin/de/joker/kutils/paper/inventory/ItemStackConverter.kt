@@ -94,9 +94,6 @@ object ItemStackConverter {
     /**
      * A method to serialize an inventory to Base64 string.
      *
-     *
-     *
-     *
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub.
      *

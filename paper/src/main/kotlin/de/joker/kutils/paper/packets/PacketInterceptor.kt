@@ -1,7 +1,7 @@
 package de.joker.kutils.paper.packets
 
 import de.joker.kutils.paper.extensions.connection
-import de.joker.kutils.paper.extensions.getLogger
+import de.joker.kutils.paper.extensions.getPluginLogger
 import dev.fruxz.ascend.extension.forceCast
 import io.netty.channel.Channel
 import io.netty.channel.ChannelDuplexHandler
@@ -74,7 +74,7 @@ fun Player.injectPacketInterceptor() {
                     PacketInterceptor.handlePacket(this@injectPacketInterceptor, packet)
                 }
             } catch (e: Exception) {
-                getLogger().warn("An error occurred while handling a packet.")
+                getPluginLogger().warn("An error occurred while handling a packet.")
                 e.printStackTrace()
             }
         }

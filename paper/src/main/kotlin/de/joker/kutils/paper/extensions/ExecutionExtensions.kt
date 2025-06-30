@@ -23,7 +23,7 @@ fun <T> timeLimit(period: Long = 1, name: String = "", block: () -> T): T {
     val value = block()
     val measured = System.nanoTime() - start
     if (measured > limit) {
-        getLogger().warn("Can't keep up. Time limit breached. $name: $measured ns > $limit ns")
+        getPluginLogger().warn("Can't keep up. Time limit breached. $name: $measured ns > $limit ns")
     }
     return value
 }
@@ -34,7 +34,7 @@ fun <T> timeIt(name: String, block: () -> T): T {
     }
     val start = System.nanoTime()
     val value = block()
-    getLogger().info("$name took ${System.nanoTime() - start}ns")
+    getPluginLogger().info("$name took ${System.nanoTime() - start}ns")
     return value
 }
 
