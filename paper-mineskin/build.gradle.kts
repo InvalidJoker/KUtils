@@ -10,6 +10,7 @@ dependencies {
     paperweight.paperDevBundle("$minecraftVersion-R0.1-SNAPSHOT")
     implementation(project(":paper"))
     implementation(project(":paper-inventory"))
+    implementation(libs.okhttp)
 }
 
 paperweight {
