@@ -1,9 +1,9 @@
 package de.joker.kutils.core.i18n
 
 import com.github.benmanes.caffeine.cache.Caffeine
-import de.joker.kutils.core.extensions.getLogger
 import de.joker.kutils.core.i18n.interfaces.TranslationSource
 import de.joker.kutils.core.tools.TempStorage
+import dev.fruxz.ascend.extension.logging.getThisFactoryLogger
 import kotlinx.coroutines.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -44,7 +44,7 @@ class TranslationManager(
             ?: cache.getIfPresent(fallbackLanguage)?.find { it.messageKey == messageKey }
 
         if (message == null) {
-            getLogger().info("No translation found for $languageCode:$messageKey")
+            getThisFactoryLogger().info("No translation found for $languageCode:$messageKey")
             if (languageCode != fallbackLanguage) return null
             notFoundTranslations.add(
                 "$messageKey||" + placeholders.entries.joinToString("|") {
