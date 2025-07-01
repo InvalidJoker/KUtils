@@ -12,6 +12,7 @@ subprojects {
                 includeGroup("dev.fruxz")
             }
         }
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
 
     // Set the group ID for all projects in the buildSrc module.
