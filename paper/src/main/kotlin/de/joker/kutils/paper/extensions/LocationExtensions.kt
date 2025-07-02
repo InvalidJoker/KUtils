@@ -88,7 +88,8 @@ fun Location.toNorth(): Location {
     return this.apply { this.yaw = 180.0f; this.pitch = 0f }
 }
 
-fun mainWorld() = Bukkit.getWorlds()[0]
+fun mainWorld() = Bukkit.getWorlds().first()
+fun mainWorldOrNull() = Bukkit.getWorlds().firstOrNull()
 fun chunk(world: World, x: Int, y: Int) = world.getChunkAt(x, y)
 fun chunk(block: Block) = chunk(block.world, block.x shr 4, block.z shr 4)
 

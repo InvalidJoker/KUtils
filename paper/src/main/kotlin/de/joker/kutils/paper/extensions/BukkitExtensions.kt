@@ -42,6 +42,12 @@ val server get() = Bukkit.getServer()
  */
 val pluginManager get() = Bukkit.getPluginManager()
 
+val consoleSender by lazy { Bukkit.getConsoleSender() }
+
+val structureManager by lazy { Bukkit.getStructureManager() }
+
+val pluginsFolder by lazy { Bukkit.getPluginsFolder().toPath() }
+
 /**
  * Broadcasts a message ([msg]) on the server.
  * @return the number of recipients
