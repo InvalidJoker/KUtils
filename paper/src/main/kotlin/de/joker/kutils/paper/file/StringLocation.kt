@@ -15,6 +15,9 @@ data class StringLocation(
         return "${x},${y},${z},${yaw},${pitch},${world}"
     }
 
+    val bukkitLocation: Location
+        get() = toBukkitLocation()
+
     fun toBukkitLocation(): Location {
         return Location(
             Bukkit.getWorld(world),

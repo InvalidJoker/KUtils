@@ -14,11 +14,14 @@
 | `paper-ux`        | Tools for player messaging and UX enhancements |
 | `paper-inventory` | Simplified inventory GUI handling for Paper    |
 | `paper-commands`  | CommandAPI utilities and enhancements          |
-| `paper-mineskin` | Integration with MineSkin for player skins    |
+| `paper-mineskin`  | Integration with MineSkin for player skins     |
+| `velocity`        | Utilities for Velocity proxy development       |
 
 ---
 
 ## 📦 Installation
+
+![version](https://jitpack.io/v/InvalidJoker/KUtils.svg)
 
 ```kotlin
 repositories {
@@ -31,7 +34,9 @@ dependencies {
     implementation("com.github.InvalidJoker.KUtils:paper:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper-ux:$jitpackVersion")
     implementation("com.github.InvalidJoker.KUtils:paper-inventory:$jitpackVersion")
-    implementation("com.github.InvalidJoker.KUtils:paper-commands:$jitpackVersion")
+    implementation("com.github.InvalidJoker.KUtils:paper-commands:$jitpackVersion"
+    implementation("com.github.InvalidJoker.KUtils:paper-mineskin:$jitpackVersion"))
+    implementation("com.github.InvalidJoker.KUtils:velocity:$jitpackVersion")
 }
 ```
 

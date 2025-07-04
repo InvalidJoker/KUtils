@@ -8,7 +8,7 @@ import java.net.URI
 import java.util.*
 
 object MojangAPI {
-    fun getUser(user: String): Player? {
+    fun getUser(user: String): MojangPlayer? {
         try {
             CoroutineScope(Dispatchers.Default).run {
                 val url = "https://playerdb.co/api/player/minecraft/$user"
@@ -38,11 +38,11 @@ object MojangAPI {
 
     @Serializable
     data class PlayerData(
-        val player: Player
+        val player: MojangPlayer
     )
 
     @Serializable
-    data class Player(
+    data class MojangPlayer(
         val username: String,
         val id: String,
         val raw_id: String,
