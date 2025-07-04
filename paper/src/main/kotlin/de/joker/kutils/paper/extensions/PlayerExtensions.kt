@@ -124,3 +124,9 @@ fun Player.actionBar(text: String) {
 fun broadcastActionbar(component: Component) {
     Bukkit.getOnlinePlayers().forEach { it.sendActionBar(component) }
 }
+
+var Player.scale: Double
+    get() = getAttribute(Attribute.SCALE)?.baseValue ?: 1.0
+    set(value) {
+        getAttribute(Attribute.SCALE)?.baseValue = value
+    }
