@@ -1,6 +1,6 @@
 package de.joker.kutils.velocity.command
 
-import com.velocitypowered.api.proxy.Player
+import com.velocitypowered.api.proxy.server.RegisteredServer
 import de.joker.kutils.velocity.main.PluginInstance
 import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.CommandTree
@@ -8,22 +8,22 @@ import dev.jorel.commandapi.arguments.Argument
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.arguments.TextArgument
 
-open class PlayerArgument(nodeName: String) : CustomArgument<Player, String>(
+open class ServerArgument(nodeName: String) : CustomArgument<RegisteredServer, String>(
     TextArgument(nodeName)
         .replaceSuggestions(
             ArgumentSuggestions.strings { info ->
-                val players = PluginInstance.server.allPlayers.map { it.username }
-                players.toTypedArray()
+                PluginInstance.server.allServers.map { it.serverInfo.name }
+                    .toTypedArray()
             }
         ),
     { info ->
         val raw = info.currentInput
 
-        val p = PluginInstance.server.getPlayer(raw)
+        val p = PluginInstance.server.getServer(raw)
 
-        if (p.isEmpty || !p.get().isActive) {
+        if (p.isEmpty) {
             throw CustomArgumentException.fromMessageBuilder(MessageBuilder()
-                .append("Player not found: ")
+                .append("Server not found: ")
                 .appendArgInput()
             )
         }
@@ -32,16 +32,16 @@ open class PlayerArgument(nodeName: String) : CustomArgument<Player, String>(
     }
 )
 
-inline fun CommandAPICommand.playerArgument(
+inline fun CommandAPICommand.serverArgument(
     nodeName: String,
     optional: Boolean = false,
     block: Argument<*>.() -> Unit = {},
 ): CommandAPICommand =
-    withArguments(PlayerArgument(nodeName).setOptional(optional).apply(block))
+    withArguments(ServerArgument(nodeName).setOptional(optional).apply(block))
 
-inline fun CommandTree.playerArgument(
+inline fun CommandTree.serverArgument(
     nodeName: String,
     optional: Boolean = false,
     block: Argument<*>.() -> Unit = {},
 ): CommandTree =
-    then(PlayerArgument(nodeName).setOptional(optional).apply(block))
+    then(ServerArgument(nodeName).setOptional(optional).apply(block))
