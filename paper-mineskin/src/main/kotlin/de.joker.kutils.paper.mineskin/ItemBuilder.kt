@@ -14,7 +14,10 @@ import java.util.UUID
  * @return An ItemBuilder object representing the player's skin texture.
  */
 fun ItemBuilder.textureFromMineSkin(mineSkinUUID: String): ItemBuilder {
-    val fetcher = MineSkinFetcher.fetchSkinSignature(mineSkinUUID)
+    if (MineSkinFetcher.instance == null) {
+        throw IllegalStateException("MineSkinFetcherInstance is not initialized. Please initialize it before using this function.")
+    }
+    val fetcher = MineSkinFetcher.instance?.fetchSkinSignature(mineSkinUUID)
 
     if (fetcher == null) {
         throw IllegalArgumentException("Invalid MineSkin UUID: $mineSkinUUID")

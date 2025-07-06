@@ -7,11 +7,18 @@ import de.joker.kutils.paper.mineskin.models.MineSkinSingleSkinResponse
 import java.net.HttpURLConnection
 import java.net.URI
 
-object MineSkinFetcher {
-
-    private val apiKey = Environment.getString("MINESKIN_API_KEY")
-
+class MineSkinFetcher(
+    private val apiKey: String = Environment.getString("MINESKIN_API_KEY") ?: throw IllegalArgumentException("MINESKIN_API_KEY environment variable is not set")
+) {
+    companion object {
+        var instance: MineSkinFetcher? = null
+            private set
+    }
     private val gson = Gson()
+
+    init {
+        instance = this
+    }
 
     private val skinCache = mutableMapOf<String, MineSkinResponse>()
 
