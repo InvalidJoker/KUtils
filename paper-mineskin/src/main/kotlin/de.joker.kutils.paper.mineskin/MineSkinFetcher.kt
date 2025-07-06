@@ -1,19 +1,11 @@
 package de.joker.kutils.paper.mineskin
 
-import com.google.gson.Gson
-import de.joker.kutils.core.tools.Environment
-import de.joker.kutils.paper.mineskin.models.MineSkinResponse
-import de.joker.kutils.paper.mineskin.models.MineSkinSingleSkinResponse
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import java.net.HttpURLConnection
+import java.net.URI
 
 object MineSkinFetcher {
 
-    private val client = OkHttpClient()
-
-    private val apiKey = Environment.getString("MINESKIN_API_KEY")
-
-    private val gson = Gson()
+    private val apiKey: String? = System.getenv("MINESKIN_API_KEY")
 
     private val skinCache = mutableMapOf<String, MineSkinResponse>()
 
@@ -22,22 +14,73 @@ object MineSkinFetcher {
             return skinCache[skin]
         }
 
-        val request = Request.Builder()
-            .url("https://api.mineskin.org/v2/skins/$skin")
-            .addHeader("Accept", "application/json")
-            .addHeader("User-Agent", "MineSkin-User-Agent")
-            .addHeader("Authorization", "Bearer $apiKey")
-            .build()
-        val response = client.newCall(request).execute()
-        val sR = gson.fromJson(response.body?.string(), MineSkinSingleSkinResponse::class.java)
-        if (sR.skin == null) {
+        val url = URI.create("https://api.mineskin.org/v2/skins/$skin").toURL()
+        val conn = url.openConnection() as HttpURLConnection
+        conn.requestMethod = "GET"
+        conn.setRequestProperty("Accept", "application/json")
+        conn.setRequestProperty("User-Agent", "KUtils-MineSkinFetcher/1.0")
+        conn.setRequestProperty("Authorization", "Bearer $apiKey")
+
+        conn.connect()
+
+        val responseCode = conn.responseCode
+        if (responseCode != 200) {
+            conn.disconnect()
             return null
         }
 
-        skinCache[skin] = sR.skin
+        val responseBody = conn.inputStream.bufferedReader().use { it.readText() }
+        conn.disconnect()
 
-        return sR.skin
+        // minimal JSON parsing, assuming the shape:
+        // {
+        //   "skin": {
+        //     "id": ...,
+        //     "uuid": "...",
+        //     "name": "...",
+        //     "data": {
+        //       "texture": "...",
+        //       "signature": "..."
+        //     }
+        //   }
+        // }
+
+        val skinObjStart = responseBody.indexOf("\"skin\"")
+        if (skinObjStart == -1) {
+            return null
+        }
+
+        val textureValue = extractJsonString(responseBody, "\"texture\"")
+        val signatureValue = extractJsonString(responseBody, "\"signature\"")
+
+        if (textureValue == null || signatureValue == null) {
+            return null
+        }
+
+        val skinResponse = MineSkinResponse(
+            texture = textureValue,
+            signature = signatureValue
+        )
+
+        skinCache[skin] = skinResponse
+
+        return skinResponse
     }
 
-
+    private fun extractJsonString(json: String, key: String): String? {
+        val keyIndex = json.indexOf(key)
+        if (keyIndex == -1) return null
+        val colonIndex = json.indexOf(':', keyIndex)
+        if (colonIndex == -1) return null
+        val firstQuote = json.indexOf('"', colonIndex + 1)
+        if (firstQuote == -1) return null
+        val secondQuote = json.indexOf('"', firstQuote + 1)
+        if (secondQuote == -1) return null
+        return json.substring(firstQuote + 1, secondQuote)
+    }
 }
+
+data class MineSkinResponse(
+    val texture: String,
+    val signature: String
+)
