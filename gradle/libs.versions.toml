@@ -10,7 +10,7 @@ stacked = "2025.5-3733615"
 dotenv = "6.5.1"
 commandapi = "10.1.0"
 caffeine = "3.2.1"
-velocity = "3.4.0-SNAPSHOT"
+velocity = "4.0.0-SNAPSHOT"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
