@@ -8,7 +8,7 @@ logback = "1.5.18"
 ascend = "2025.6-b1b2785"
 stacked = "2025.5-3733615"
 dotenv = "6.5.1"
-commandapi = "10.1.0"
+commandapi = "10.1.2"
 caffeine = "3.2.1"
 velocity = "3.4.0-SNAPSHOT"
 
