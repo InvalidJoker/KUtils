@@ -2,7 +2,7 @@
 kotlin = "2.2.0"
 kotlinxSerializationJSON = "1.9.0"
 kotlinxCoroutines = "1.10.2"
-paperweight = "2.0.0-beta.17"
+paperweight = "2.0.0-SNAPSHOT"
 minecraft = "1.21.6"
 logback = "1.5.18"
 ascend = "2025.6-b1b2785"
