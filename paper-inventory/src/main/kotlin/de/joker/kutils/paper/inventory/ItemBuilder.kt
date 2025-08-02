@@ -2,19 +2,23 @@ package de.joker.kutils.paper.inventory
 
 import com.destroystokyo.paper.profile.ProfileProperty
 import com.google.gson.Gson
+import de.joker.kutils.core.api.MojangAPI
 import de.joker.kutils.paper.inventory.skin.MinecraftSkin
 import de.joker.kutils.paper.inventory.skin.SKIN
 import de.joker.kutils.paper.inventory.skin.Textures
 import dev.fruxz.ascend.extension.forceCastOrNull
 import dev.fruxz.stacked.text
+import io.papermc.paper.datacomponent.item.PaperUseCooldown
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
 import net.minecraft.world.item.component.CustomModelData
+import net.minecraft.world.item.component.UseCooldown
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.OfflinePlayer
 import org.bukkit.craftbukkit.inventory.components.CraftCustomModelDataComponent
+import org.bukkit.craftbukkit.inventory.components.CraftUseCooldownComponent
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemFlag
@@ -23,6 +27,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.SkullMeta
+import org.bukkit.inventory.meta.components.UseCooldownComponent
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
 
@@ -262,6 +267,31 @@ class ItemBuilder(material: Material, count: Int = 1, dsl: ItemBuilder.() -> Uni
             skullMeta.playerProfile = profile
             itemStack.itemMeta = skullMeta
         }
+        return this
+    }
+
+    fun textureByUsername(username: String): ItemBuilder {
+        if (itemStack.type != Material.PLAYER_HEAD) return this
+
+        val mojPlayer = MojangAPI.getUser(username) ?: return this
+
+        return texture(mojPlayer.skin_texture, isUrl = true)
+    }
+
+
+    fun cooldownGroup(
+        cooldownGroup: NamespacedKey,
+        cooldown: Float
+    ): ItemBuilder {
+        val component = CraftUseCooldownComponent(UseCooldown(
+            cooldown
+        ))
+
+        component.cooldownGroup = cooldownGroup
+
+        val meta = itemStack.itemMeta
+        meta.setUseCooldown(component)
+        itemStack.itemMeta = meta
         return this
     }
 

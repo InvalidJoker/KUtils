@@ -21,7 +21,9 @@ import org.bukkit.inventory.InventoryHolder
 import org.bukkit.persistence.PersistentDataType
 import org.jetbrains.annotations.ApiStatus.Experimental
 import de.joker.kutils.core.extensions.shuffled
+import de.joker.kutils.paper.extensions.inWholeMinecraftTicks
 import org.bukkit.event.inventory.InventoryAction
+import kotlin.time.Duration
 
 fun Inventory.containsExact(itemStack: ItemStack): Boolean {
     return contents.any { it?.toItemBuilder()?.isExact(itemStack) == true }
@@ -39,6 +41,19 @@ fun ItemStack.changeNameForTime(name: String, time: Long, unit: TimeUnit = TimeU
     }
 }
 
+fun Player.isItemGroupOnCooldown(item: ItemStack): Boolean {
+    val meta = item.itemMeta ?: return false
+    val cooldown = meta.useCooldown
+    val group: NamespacedKey = cooldown.cooldownGroup ?: return false
+    return this.getCooldown(group) > 0
+}
+
+fun Player.setItemGroupCooldown(item: ItemStack, time: Duration) {
+    val meta = item.itemMeta ?: return
+    val cooldown = meta.useCooldown
+    val group: NamespacedKey = cooldown.cooldownGroup ?: return
+    this.setCooldown(group, time.inWholeMinecraftTicks)
+}
 
 fun canItemFitInInventory(inventory: Inventory, itemToAdd: ItemStack): Boolean {
     // Clone the item to avoid modifying the original
