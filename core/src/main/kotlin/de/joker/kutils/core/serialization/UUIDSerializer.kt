@@ -8,7 +8,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.util.UUID
 
-class UUIDSerializer : KSerializer<UUID> {
+@Deprecated("Use frux UUIDSerializer instead", ReplaceWith("dev.fruxz.ascend.json.serializer.UUIDSerializer"))
+object UUIDSerializer : KSerializer<UUID> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: UUID) {
