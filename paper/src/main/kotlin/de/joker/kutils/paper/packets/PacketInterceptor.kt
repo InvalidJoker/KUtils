@@ -11,52 +11,50 @@ import org.bukkit.entity.Player
 import org.jetbrains.annotations.ApiStatus
 
 object PacketInterceptor {
-
-    private val packetCallbacks =
-        mutableMapOf<Int, Pair<Class<out Packet<*>>, (Player, Packet<*>) -> Unit>>()
+    private val incomingCallbacks =
+        mutableMapOf<Int, Pair<Class<out Packet<*>>, (Player, Packet<*>) -> Packet<*>?>>()
+    private val outgoingCallbacks =
+        mutableMapOf<Int, Pair<Class<out Packet<*>>, (Player, Packet<*>) -> Packet<*>?>>()
     private var counter = 0
 
-    /**
-     * Registers a packet callback.
-     * The callback will be called when the given packet is received.
-     * Don't forget to inject the packet interceptor into the player before you can receive packets.
-     *
-     * @param packet the packet class to register the callback for
-     * @param callback the callback to be called when the packet is received
-     * @return the ID of the callback
-     */
-    fun <T : Packet<*>> registerPacketCallback(
+    fun <T : Packet<*>> registerIncoming(
         packet: Class<T>,
-        callback: (Player, T) -> Unit
+        callback: (Player, T) -> Packet<*>?
     ): Int {
         val id = counter++
-        packetCallbacks[id] = Pair(packet) { player, pkt -> callback(player, pkt.forceCast()) }
+        incomingCallbacks[id] = Pair(packet) { player, pkt -> callback(player, pkt.forceCast()) }
         return id
     }
 
-    /**
-     * Unregisters a packet callback.
-     *
-     * @param id the ID of the callback to unregister
-     */
-    fun unregisterPacketCallback(id: Int) {
-        packetCallbacks.remove(id)
+    fun <T : Packet<*>> registerOutgoing(
+        packet: Class<T>,
+        callback: (Player, T) -> Packet<*>?
+    ): Int {
+        val id = counter++
+        outgoingCallbacks[id] = Pair(packet) { player, pkt -> callback(player, pkt.forceCast()) }
+        return id
     }
 
-    /**
-     * Handles a received packet. (This method is called by the packet interceptor)
-     * Don't call this method directly.
-     *
-     * @param packet the packet to handle
-     */
-    @ApiStatus.Internal
-    internal fun handlePacket(player: Player, packet: Packet<*>) {
-        packetCallbacks.forEach { (_, pair) ->
-            val (packetClass, callback) = pair
-            if (packetClass.isInstance(packet)) {
-                callback(player, packet)
+    internal fun handleIncomingPacket(player: Player, packet: Packet<*>): Packet<*>? {
+        var modified: Packet<*>? = null
+        incomingCallbacks.forEach { (_, pair) ->
+            val (clazz, cb) = pair
+            if (clazz.isInstance(packet)) {
+                modified = cb(player, packet)
             }
         }
+        return modified
+    }
+
+    internal fun handleOutgoingPacket(player: Player, packet: Packet<*>): Packet<*>? {
+        var modified: Packet<*>? = null
+        outgoingCallbacks.forEach { (_, pair) ->
+            val (clazz, cb) = pair
+            if (clazz.isInstance(packet)) {
+                modified = cb(player, packet)
+            }
+        }
+        return modified
     }
 }
 
@@ -67,30 +65,38 @@ object PacketInterceptor {
  */
 fun Player.injectPacketInterceptor() {
     val channelDuplexHandler = object : ChannelDuplexHandler() {
-        override fun channelRead(channelHandlerContext: ChannelHandlerContext, packet: Any) {
-            super.channelRead(channelHandlerContext, packet)
+
+        override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
+            var packet = msg
             try {
                 if (packet is Packet<*>) {
-                    PacketInterceptor.handlePacket(this@injectPacketInterceptor, packet)
+                    PacketInterceptor.handleIncomingPacket(this@injectPacketInterceptor, packet)?.let {
+                        packet = it
+                    }
                 }
             } catch (e: Exception) {
-                getPluginLogger().warn("An error occurred while handling a packet.")
+                getPluginLogger().warn("Error while reading packet")
                 e.printStackTrace()
             }
+            super.channelRead(ctx, packet)
+        }
+
+        override fun write(ctx: ChannelHandlerContext, msg: Any, promise: io.netty.channel.ChannelPromise) {
+            var packet = msg
+            try {
+                if (packet is Packet<*>) {
+                    PacketInterceptor.handleOutgoingPacket(this@injectPacketInterceptor, packet)?.let {
+                        packet = it
+                    }
+                }
+            } catch (e: Exception) {
+                getPluginLogger().warn("Error while writing packet")
+                e.printStackTrace()
+            }
+            super.write(ctx, packet, promise)
         }
     }
-    var channel: Channel? = null
-    try {
-        channel = connection.connection.channel
-        channel.pipeline().addBefore("packet_handler", name, channelDuplexHandler)
-    } catch (e: IllegalArgumentException) {
-        if (channel == null) {
-            return
-        }
-        if (!channel.pipeline().names().contains(name)) return
-        channel.pipeline().remove(name)
-        injectPacketInterceptor()
-    } catch (_: IllegalAccessException) {
-    } catch (_: NoSuchFieldException) {
-    }
+
+    val channel = connection.connection.channel
+    channel.pipeline().addBefore("packet_handler", name, channelDuplexHandler)
 }
