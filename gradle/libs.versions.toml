@@ -11,6 +11,8 @@ dotenv = "6.5.1"
 commandapi = "10.1.2"
 caffeine = "3.2.2"
 velocity = "3.4.0-SNAPSHOT"
+luckperms = "5.4"
+adventure = "4.24.0"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -21,6 +23,7 @@ ascend = { module = "dev.fruxz:ascend", version.ref = "ascend" }
 stacked = { module = "dev.fruxz:stacked", version.ref = "stacked" }
 dotenv = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenv" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+luckperms = { module = "net.luckperms:api", version.ref = "luckperms" }
 
 # Command API
 commandapi-bukkit = { module = "dev.jorel:commandapi-bukkit-plugin", version.ref = "commandapi" }
@@ -30,10 +33,14 @@ commandapi-velocity-kotlin = { module = "dev.jorel:commandapi-velocity-kotlin", 
 
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 
+adventure = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+adventure-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
+
 [bundles]
 kotlinxEcosystem = ["kotlinxSerialization", "kotlinxCoroutines"]
 utils = ["logback", "ascend", "dotenv"]
 minecraft = ["stacked"]
+adventure = ["adventure", "adventure-gson"]
 commandapi-bukkit = ["commandapi-bukkit", "commandapi-bukkit-kotlin"]
 commandapi-velocity = ["commandapi-velocity", "commandapi-velocity-kotlin"]
 

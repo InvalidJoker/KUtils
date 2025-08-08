@@ -17,6 +17,9 @@ include(":paper-inventory")
 include(":paper-ux")
 include(":paper-commands")
 include(":paper-mineskin")
+include(":paper-luckperms")
+
+include(":adventure")
 
 include(":velocity")
 

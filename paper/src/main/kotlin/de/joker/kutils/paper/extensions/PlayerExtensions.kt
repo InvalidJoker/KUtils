@@ -26,8 +26,6 @@ fun UUID.toPlayer(): Player? = Bukkit.getPlayer(this)
 
 fun String.toUUID(): UUID = UUID.fromString(this)
 
-fun CommandSender.sendEmtpyLine() = sendMessage(text(" "))
-
 fun Player.toOfflinePlayer(): OfflinePlayer = Bukkit.getOfflinePlayer(uniqueId)
 
 fun Player.sendDeniedSound() = playSound(location, "minecraft:block.note_block.bass", 1f, 1f)
@@ -64,36 +62,6 @@ fun String.toOfflinePlayerIfCached(): OfflinePlayer? {
     return Bukkit.getOfflinePlayerIfCached(this)
 }
 
-fun CommandSender.sendMessagePlain(message: String) {
-    sendMessage(text(message))
-}
-
-fun CommandSender.sendMessagePlain(message: Component) {
-    sendMessage(message)
-}
-
-fun Collection<Player>.sendMessagePlain(message: String) {
-    forEach { it.sendMessagePlain(message) }
-}
-
-fun Collection<Player>.sendMessagePlain(message: Component) {
-    forEach { it.sendMessagePlain(message) }
-}
-
-fun Player.send(message: String) {
-    this.sendMessage(text(message))
-}
-
-fun CommandSender.send(message: String) {
-    this.sendMessage(text(message))
-}
-
-fun CommandSender.sendMessageBlock(vararg lines: String) {
-    sendEmtpyLine()
-    lines.forEach { sendMessage(text(it)) }
-    sendEmtpyLine()
-}
-
 fun Player.title(
     title: String? = null,
     subtitle: String? = null,
@@ -109,7 +77,6 @@ fun Player.title(
         )
     )
 }
-
 
 val Player.connection: ServerGamePacketListenerImpl
     get() {
