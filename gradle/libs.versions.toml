@@ -11,7 +11,7 @@ dotenv = "6.5.1"
 commandapi = "10.1.2"
 caffeine = "3.2.2"
 velocity = "3.4.0-SNAPSHOT"
-luckperms = "5.4"
+luckperms = "5.5"
 adventure = "4.24.0"
 
 [libraries]
