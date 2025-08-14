@@ -3,7 +3,6 @@ package de.joker.kutils.paper.luckperms
 import dev.fruxz.stacked.text
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.luckperms.api.model.group.Group
 import net.luckperms.api.node.NodeType
 import kotlin.collections.filter

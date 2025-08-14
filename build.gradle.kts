@@ -4,7 +4,17 @@ plugins {
 
 val projectVersion: String by project
 
-subprojects {
+repositories {
+    mavenCentral()
+    maven("https://nexus.fruxz.dev/repository/public/") {
+        content {
+            includeGroup("dev.fruxz")
+        }
+    }
+    maven("https://repo.papermc.io/repository/maven-public/")
+}
+
+allprojects {
     repositories {
         mavenCentral()
         maven("https://nexus.fruxz.dev/repository/public/") {
