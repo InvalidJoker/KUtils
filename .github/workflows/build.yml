@@ -1,16 +1,8 @@
-name: Publish Library
-
-on:
-  release:
-    types: [ created ]
-
+name: Build Library
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -21,18 +13,7 @@ jobs:
           cache: 'gradle'
           server-id: github
           settings-path: ${{ github.workspace }}
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Build with Gradle
-        run: ./gradlew build
-
-      - name: Publish to GitHub Packages
-        run: ./gradlew publish
-        env:
-          FSQRT_REPO_USER: ${{ secrets.FSQRT_REPO_USER }}
-          FSQRT_REPO_PW: ${{ secrets.FSQRT_REPO_PW }}
+        run: ./gradlew build --stacktrace
