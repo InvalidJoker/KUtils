@@ -83,12 +83,9 @@ val Dispatchers.mc: CoroutineContext
  * Executes the given [runnable] with the given [delay].
  * Either sync or async (specified by the [sync] parameter).
  */
-fun taskRunLater(delay: Long, sync: Boolean = true, runnable: () -> Unit) {
-    if (sync)
-        Bukkit.getScheduler().runTaskLater(PluginInstance, runnable, delay)
-    else
-        Bukkit.getScheduler().runTaskLaterAsynchronously(PluginInstance, runnable, delay)
-}
+fun taskRunLater(delay: Long, sync: Boolean = true, runnable: () -> Unit) =
+    if (sync) Bukkit.getScheduler().runTaskLater(PluginInstance, runnable, delay)
+    else Bukkit.getScheduler().runTaskLaterAsynchronously(PluginInstance, runnable, delay)
 
 /**
  * Executes the given [runnable] either
@@ -131,37 +128,4 @@ fun autoCloseTimer(
     return Closeable {
         handler.cancel()
     }
-}
-
-fun task(
-    period: Long = 1,
-    howOften: Long = 1,
-    name: String = "",
-    sync: Boolean = true,
-    block: (BukkitTask) -> Unit
-): BukkitTask {
-    var count = 0L
-
-    lateinit var task: BukkitTask
-
-    val runnable = object : BukkitRunnable() {
-        override fun run() {
-            timeLimit(period, name) {
-                block(task)
-
-                count++
-                if (count >= howOften) {
-                    cancel()
-                }
-            }
-        }
-    }
-
-    task = if (sync) {
-        runnable.runTaskTimer(PluginInstance, 0, period)
-    } else {
-        runnable.runTaskTimerAsynchronously(PluginInstance, 0, period)
-    }
-
-    return task
 }

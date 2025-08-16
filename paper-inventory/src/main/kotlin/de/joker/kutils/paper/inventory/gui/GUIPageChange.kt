@@ -1,6 +1,6 @@
 package de.joker.kutils.paper.inventory.gui
 
-import de.joker.kutils.paper.coroutines.task
+import de.joker.kutils.paper.tasks.task
 
 abstract class GUIPageChangeCalculator {
     abstract fun calculateNewPage(currentPage: Int, pages: Collection<Int>): Int?
@@ -119,7 +119,7 @@ private inline fun changePageEffect(
     task(
         sync = true,
         period = 1,
-        howOften = doFor.toLong()
+        uses = doFor.toLong()
     ) {
         effect.invoke(currentOffset, ifInverted)
 

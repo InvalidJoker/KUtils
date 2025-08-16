@@ -95,3 +95,7 @@ inline fun <T, R> Lazy<T>.ifInitialized(block: (T) -> R) = if (isInitialized()) 
 val <T> Lazy<T>.valueIfInitialized get() = ifInitialized { value }
 
 fun Lazy<AutoCloseable>.closeIfInitialized() = ifInitialized { value.close() }
+
+fun Any?.println() = println(this)
+
+fun Any?.print() = print(this)

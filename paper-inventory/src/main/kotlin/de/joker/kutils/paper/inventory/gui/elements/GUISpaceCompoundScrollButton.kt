@@ -1,8 +1,7 @@
 package de.joker.kutils.paper.inventory.gui.elements
 
-import de.joker.kutils.paper.coroutines.task
-import de.joker.kutils.paper.coroutines.taskRunTimer
 import de.joker.kutils.paper.inventory.gui.ForInventory
+import de.joker.kutils.paper.tasks.task
 import org.bukkit.inventory.ItemStack
 
 class GUISpaceCompoundScrollButton<T : ForInventory>(
@@ -15,14 +14,13 @@ class GUISpaceCompoundScrollButton<T : ForInventory>(
     if (scrollTimes > 1) {
         task(
             period = 1,
-            howOften = scrollTimes.toLong()
+            uses = scrollTimes.toLong()
         ) {
             val ifScrolled = if (reverse) compound.scroll(-scrollDistance) else compound.scroll(scrollDistance)
             if (!ifScrolled) it.cancel()
         }
     } else if (scrollTimes == 1)
         if (reverse) compound.scroll(-scrollDistance) else compound.scroll(scrollDistance)
-
 }) {
     constructor(
         icon: ItemStack,

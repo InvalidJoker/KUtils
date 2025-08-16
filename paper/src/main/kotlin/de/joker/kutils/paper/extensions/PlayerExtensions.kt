@@ -88,6 +88,12 @@ fun Player.actionBar(text: String) {
     sendActionBar(text(text))
 }
 
+val Player.locale: Locale
+    get() = locale()
+
+val Player.localeTag: String
+    get() = locale().toLanguageTag()
+
 fun broadcastActionbar(component: Component) {
     Bukkit.getOnlinePlayers().forEach { it.sendActionBar(component) }
 }

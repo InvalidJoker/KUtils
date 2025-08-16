@@ -3,10 +3,6 @@ plugins {
     `maven-publish`
 }
 
-// debug print version
-println("KUtils version: ${project.version}")
-println("KUtils group: ${project.group}")
-
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
