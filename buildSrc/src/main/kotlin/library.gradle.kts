@@ -43,14 +43,12 @@ publishing {
 
     repositories {
         mavenLocal()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/InvalidJoker/KUtils")
+        maven("https://maven.fsqrt.org/releases") {
+            name = "fsqrt.releases"
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                username = System.getenv("FSQRT_REPO_USER")
+                password = System.getenv("FSQRT_REPO_PW")
             }
         }
     }
-
 }
