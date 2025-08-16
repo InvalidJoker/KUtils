@@ -23,7 +23,8 @@
 
 ## 📦 Installation
 
-![version](https://jitpack.io/v/InvalidJoker/KUtils.svg)
+![Latest Version](https://img.shields.io/maven-metadata/v?label=kutils-core&metadataUrl=https://maven.fsqrt.org/releases/de/joker/kutils/core/maven-metadata.xml)
+
 
 ```kotlin
 repositories {
