@@ -12,7 +12,9 @@ import org.bukkit.Sound
 import org.bukkit.attribute.Attribute
 import org.bukkit.block.Block
 import org.bukkit.command.CommandSender
+import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.craftbukkit.entity.CraftPlayer
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -77,12 +79,18 @@ fun Player.title(
         )
     )
 }
+val LivingEntity.nms
+    get() = (this as CraftLivingEntity).handle
 
-val Player.connection: ServerGamePacketListenerImpl
+
+val Player.packetConnection: ServerGamePacketListenerImpl
     get() {
         val serverPlayer = (player as CraftPlayer).handle as ServerPlayer
         return serverPlayer.connection
     }
+
+val Player.nms: ServerPlayer
+    get() = (this as CraftPlayer).handle
 
 fun Player.actionBar(text: String) {
     sendActionBar(text(text))

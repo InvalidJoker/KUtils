@@ -271,25 +271,43 @@ fun ItemStack.identify(identifier: String, vararg identifiers: Map<NamespacedKey
     }.build()
 }
 
-fun ItemStack.setKey(namespacedKey: NamespacedKey): String? {
-    return this.itemMeta?.persistentDataContainer?.get(
-        namespacedKey,
+fun <T : Any> ItemStack.setKey(namespacedKey: NamespacedKey, value: T, type: PersistentDataType<T, T>): ItemStack {
+    val meta = this.itemMeta ?: return this
+    meta.persistentDataContainer.set(namespacedKey, type, value)
+    this.itemMeta = meta
+    return this
+}
+
+fun ItemStack.setKey(namespacedKey: String, value: String): ItemStack {
+    return this.setKey(
+        pluginKey(namespacedKey),
+        value,
         PersistentDataType.STRING
     )
 }
 
-fun ItemStack.hasKey(namespacedKey: NamespacedKey): Boolean {
-    return this.itemMeta?.persistentDataContainer?.has(
-        namespacedKey,
-        PersistentDataType.STRING
-    ) == true
-}
-
-fun ItemStack.getKey(namespacedKey: NamespacedKey): String? {
+fun <T : Any> ItemStack.getKey(namespacedKey: NamespacedKey, type: PersistentDataType<T, T>): T? {
     return this.itemMeta?.persistentDataContainer?.get(
         namespacedKey,
+        type
+    )
+}
+
+fun ItemStack.getKey(namespacedKey: String): String? {
+    return getKey(
+        pluginKey(namespacedKey),
         PersistentDataType.STRING
     )
+}
+
+fun <T : Any> ItemStack.hasKey(namespacedKey: NamespacedKey, type: PersistentDataType<T, T>): Boolean {
+    return this.itemMeta?.persistentDataContainer?.has(namespacedKey, type) ?: false
+}
+
+fun ItemStack.removeKey(namespacedKey: NamespacedKey) {
+    val meta = this.itemMeta ?: return
+    meta.persistentDataContainer.remove(namespacedKey)
+    this.itemMeta = meta
 }
 
 fun ItemStack.addCustomString(value: String): ItemStack {

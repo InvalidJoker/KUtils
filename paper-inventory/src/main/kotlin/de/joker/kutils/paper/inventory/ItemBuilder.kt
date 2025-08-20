@@ -8,7 +8,11 @@ import de.joker.kutils.paper.inventory.skin.SKIN
 import de.joker.kutils.paper.inventory.skin.Textures
 import dev.fruxz.ascend.extension.forceCastOrNull
 import dev.fruxz.stacked.text
-import io.papermc.paper.datacomponent.item.PaperUseCooldown
+import io.papermc.paper.datacomponent.DataComponentTypes
+import io.papermc.paper.datacomponent.item.Consumable
+import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect
+import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
 import net.minecraft.world.item.component.CustomModelData
@@ -515,6 +519,26 @@ class ItemBuilder(material: Material, count: Int = 1, dsl: ItemBuilder.() -> Uni
         meta.setEquippable(equippable)
 
         itemStack.itemMeta = meta
+        return this
+    }
+
+    fun consumable(
+        consumeSeconds: Float = 1.6f,
+        animation: ItemUseAnimation = ItemUseAnimation.EAT,
+        sound: Key = Key.key("minecraft:entity.generic.eat"),
+        hasConsumeEffects: Boolean = true,
+        onConsumeEffects: List<ConsumeEffect> = listOf()
+    ): ItemBuilder {
+
+        val consumable = Consumable.consumable()
+            .consumeSeconds(consumeSeconds)
+            .animation(animation)
+            .sound(sound)
+            .hasConsumeParticles(hasConsumeEffects)
+            .addEffects(onConsumeEffects)
+            .build()
+
+        itemStack.setData(DataComponentTypes.CONSUMABLE, consumable)
         return this
     }
 

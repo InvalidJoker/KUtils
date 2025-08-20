@@ -1,14 +1,12 @@
 package de.joker.kutils.paper.packets
 
-import de.joker.kutils.paper.extensions.connection
 import de.joker.kutils.paper.extensions.getPluginLogger
+import de.joker.kutils.paper.extensions.packetConnection
 import dev.fruxz.ascend.extension.forceCast
-import io.netty.channel.Channel
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import net.minecraft.network.protocol.Packet
 import org.bukkit.entity.Player
-import org.jetbrains.annotations.ApiStatus
 
 object PacketInterceptor {
     private val incomingCallbacks =
@@ -97,6 +95,6 @@ fun Player.injectPacketInterceptor() {
         }
     }
 
-    val channel = connection.connection.channel
+    val channel = packetConnection.connection.channel
     channel.pipeline().addBefore("packet_handler", name, channelDuplexHandler)
 }
