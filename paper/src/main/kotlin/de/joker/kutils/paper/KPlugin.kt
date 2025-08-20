@@ -25,10 +25,10 @@ abstract class KPlugin : JavaPlugin() {
     val coroutineScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + coroutineScope.coroutineContext) }
 
     /**
-     * [PaperModule]s that will be integrated into the Minekraft lifecycle
+     * [PaperModule]s that will be integrated into the Plugin lifecycle
      */
     open val modules: List<PaperModule>? = null
-    
+
     /**
      * Called when the plugin was loaded
      */

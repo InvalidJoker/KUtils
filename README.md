@@ -10,6 +10,7 @@
 |-------------------|------------------------------------------------|
 | `core`            | General-purpose Kotlin utilities               |
 | `core-i18n`       | Internationalization utilities for Kotlin      |
+| `redis`           | Redis client utilities for Kotlin              |
 | `adventure`       | Adventure API utilities for Minecraft          |
 | `paper`           | PaperMC-specific plugin utilities              |
 | `paper-ux`        | Tools for player messaging and UX enhancements |

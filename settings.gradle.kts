@@ -11,6 +11,7 @@ plugins {
 
 include(":core")
 include(":core-i18n")
+include(":redis")
 
 include(":paper")
 include(":paper-inventory")

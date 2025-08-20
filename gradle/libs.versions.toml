@@ -13,6 +13,7 @@ caffeine = "3.2.2"
 velocity = "3.4.0-SNAPSHOT"
 luckperms = "5.5"
 adventure = "4.24.0"
+redis = "6.0.0"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -24,6 +25,7 @@ stacked = { module = "dev.fruxz:stacked", version.ref = "stacked" }
 dotenv = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenv" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
 luckperms = { module = "net.luckperms:api", version.ref = "luckperms" }
+redis = { module = "redis.clients:jedis", version.ref = "redis" }
 
 # Command API
 commandapi-bukkit = { module = "dev.jorel:commandapi-bukkit-plugin", version.ref = "commandapi" }
