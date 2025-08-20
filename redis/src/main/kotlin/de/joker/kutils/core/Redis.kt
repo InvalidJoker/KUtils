@@ -18,7 +18,8 @@ lateinit var redisCalls: RedisCalls
 
 class RedisCalls(
     val host: String = System.getenv("REDIS_HOST") ?: "localhost",
-    val port: Int = System.getenv("REDIS_PORT")?.toInt() ?: 6379
+    val port: Int = System.getenv("REDIS_PORT")?.toInt() ?: 6379,
+    val prefix: String = System.getenv("REDIS_PREFIX") ?: "notifications"
 ) {
     init {
         redisCalls = this
@@ -65,7 +66,7 @@ class RedisCalls(
 
         redisScope.launch {
             jedisPool.resource.use { jedis ->
-                jedis.psubscribe(jedisPubSub, "fsqrt:*")
+                jedis.psubscribe(jedisPubSub, "$prefix:*")
             }
         }
 
@@ -125,7 +126,7 @@ class RedisCalls(
         try {
             jedisPool.resource.use { jedis ->
                 val jsonStr = json.encodeToString(Notification.serializer(),event)
-                jedis.publish("fsqrt:${event.channel}", jsonStr)
+                jedis.publish("$prefix:${event.channel}", jsonStr)
             }
         } catch (e: Exception) {
             logger.error("Failed to publish event to channel '${event.channel}'", e)
