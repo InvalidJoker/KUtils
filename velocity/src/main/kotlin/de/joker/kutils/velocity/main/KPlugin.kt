@@ -13,7 +13,6 @@ import kotlinx.coroutines.SupervisorJob
  */
 lateinit var PluginInstance: KPlugin
 
-
 /**
  * The main plugin class for Velocity plugins.
  * This class provides a structure for plugins to follow,
