@@ -13,7 +13,7 @@ caffeine = "3.2.2"
 velocity = "3.4.0-SNAPSHOT"
 luckperms = "5.5"
 adventure = "4.24.0"
-redis = "6.0.0"
+redis = "6.2.0"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
