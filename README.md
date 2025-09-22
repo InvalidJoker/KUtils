@@ -29,23 +29,23 @@
 
 ```kotlin
 repositories {
-    maven("https://maven.fsqrt.org/releases")
+    mavenCentral()
 }
 
 dependencies {
-    implementation("de.joker.kutils:core:$jitpackVersion")
-    implementation("de.joker.kutils:core-i18n:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:core:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:core-i18n:$jitpackVersion")
     
-    implementation("de.joker.kutils:adventure:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:adventure:$jitpackVersion")
     
-    implementation("de.joker.kutils:paper:$jitpackVersion")
-    implementation("de.joker.kutils:paper-ux:$jitpackVersion")
-    implementation("de.joker.kutils:paper-luckperms:$jitpackVersion")
-    implementation("de.joker.kutils:paper-inventory:$jitpackVersion")
-    implementation("de.joker.kutils:paper-commands:$jitpackVersion")
-    implementation("de.joker.kutils:paper-mineskin:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:paper:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:paper-ux:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:paper-luckperms:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:paper-inventory:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:paper-commands:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:paper-mineskin:$jitpackVersion")
     
-    implementation("de.joker.kutils:velocity:$jitpackVersion")
+    implementation("dev.invalidjoker.kutils:velocity:$jitpackVersion")
 }
 ```
 

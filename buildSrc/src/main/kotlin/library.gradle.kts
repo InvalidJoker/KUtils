@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    signing
 }
 
 publishing {
@@ -17,7 +18,7 @@ publishing {
                 }
             }
 
-            groupId = "de.joker.kutils"
+            groupId = "dev.invalidjoker.kutils"
             artifactId = project.name
             version = project.version.toString()
 
@@ -43,12 +44,19 @@ publishing {
 
     repositories {
         mavenLocal()
-        maven("https://maven.fsqrt.org/releases") {
-            name = "fsqrt.releases"
-            credentials {
-                username = System.getenv("FSQRT_REPO_USER")
-                password = System.getenv("FSQRT_REPO_PW")
-            }
+        maven {
+            name = "sonatype"
+            credentials(PasswordCredentials::class)
+            setUrl(
+                if (version.toString().endsWith("SNAPSHOT"))
+                    "https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots"
+                else
+                    "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2"
+            )
         }
     }
+}
+
+signing {
+    sign(publishing.publications)
 }
