@@ -8,7 +8,7 @@ logback = "1.5.18"
 ascend = "2025.8-64943c6"
 stacked = "2025.8-ca42cc0"
 dotenv = "6.5.1"
-commandapi = "10.1.2"
+commandapi = "11.0.0"
 caffeine = "3.2.2"
 velocity = "3.4.0-SNAPSHOT"
 luckperms = "5.5"
@@ -28,10 +28,10 @@ luckperms = { module = "net.luckperms:api", version.ref = "luckperms" }
 redis = { module = "redis.clients:jedis", version.ref = "redis" }
 
 # Command API
-commandapi-bukkit = { module = "dev.jorel:commandapi-bukkit-plugin", version.ref = "commandapi" }
-commandapi-bukkit-kotlin = { module = "dev.jorel:commandapi-bukkit-kotlin", version.ref = "commandapi" }
+commandapi-bukkit = { module = "dev.jorel:commandapi-paper-core", version.ref = "commandapi" }
+commandapi-bukkit-kotlin = { module = "dev.jorel:commandapi-kotlin-paper", version.ref = "commandapi" }
 commandapi-velocity = { module = "dev.jorel:commandapi-velocity-core", version.ref = "commandapi" }
-commandapi-velocity-kotlin = { module = "dev.jorel:commandapi-velocity-kotlin", version.ref = "commandapi" }
+commandapi-velocity-kotlin = { module = "dev.jorel:commandapi-kotlin-velocity", version.ref = "commandapi" }
 
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 

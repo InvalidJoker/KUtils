@@ -22,6 +22,8 @@ publishing {
             artifactId = project.name
             version = project.version.toString()
 
+            println("Publishing $groupId:$artifactId:$version")
+
             pom {
                 name.set(project.name)
                 description.set("The ${project.name} project provides various utilities and extensions")
@@ -43,16 +45,18 @@ publishing {
     }
 
     repositories {
-        mavenLocal()
+        val repoUrl = if (project.version.toString().endsWith("SNAPSHOT")) {
+            "https://central.sonatype.com/repository/maven-snapshots/"
+        } else {
+            "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/"
+        }
         maven {
             name = "sonatype"
-            credentials(PasswordCredentials::class)
-            setUrl(
-                if (version.toString().endsWith("SNAPSHOT"))
-                    "https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots"
-                else
-                    "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2"
-            )
+            url = uri(repoUrl)
+            credentials {
+                username = findProperty("sonatypeUsername") as String?
+                password = findProperty("sonatypePassword") as String?
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ repositories {
         }
     }
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.codemc.org/repository/maven-public/")
 }
 
 allprojects {
@@ -23,6 +24,7 @@ allprojects {
             }
         }
         maven("https://repo.papermc.io/repository/maven-public/")
+        maven("https://repo.codemc.org/repository/maven-public/")
     }
 
     // Set the group ID for all projects in the buildSrc module.
