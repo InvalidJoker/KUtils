@@ -9,6 +9,7 @@ val minecraftVersion = libs.versions.minecraft.get()
 dependencies {
     paperweight.paperDevBundle("$minecraftVersion-R0.1-SNAPSHOT")
     api(project(":core"))
+    api(project(":adventure"))
     api(libs.bundles.minecraft)
 }
 

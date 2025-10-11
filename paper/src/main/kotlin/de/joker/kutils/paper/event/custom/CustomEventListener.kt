@@ -1,6 +1,6 @@
 package de.joker.kutils.paper.event.custom
 
-import de.joker.kutils.paper.event.EventHandler
+import de.joker.kutils.paper.event.LoadableListener
 import de.joker.kutils.paper.event.listen
 import de.joker.kutils.paper.event.register
 import de.joker.kutils.paper.event.unregister
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
-object CustomEventListener: EventHandler {
+object CustomEventListener: LoadableListener {
     override fun load() {
         onPlayerInteract.register()
         onEntityDamageByEntity.register()

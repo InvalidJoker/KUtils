@@ -1,6 +1,6 @@
 package de.joker.kutils.paper.event
 
-interface EventHandler {
+interface LoadableListener {
     fun load()
 
     fun unload()
